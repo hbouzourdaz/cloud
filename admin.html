@@ -388,6 +388,12 @@
                             <!-- Injected via JS -->
                         </div>
                         <div class="flex gap-2">
+                            <button id="move-level-right-btn" onclick="moveLevel(-1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليمين">
+                                <span class="material-symbols-rounded text-sm">chevron_right</span>
+                            </button>
+                            <button id="move-level-left-btn" onclick="moveLevel(1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليسار">
+                                <span class="material-symbols-rounded text-sm">chevron_left</span>
+                            </button>
                             <button onclick="openLevelModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-1.5 transition-colors">
                                 <span class="material-symbols-rounded text-sm">add_box</span>
                                 مستوى جديد
@@ -406,10 +412,55 @@
                     <!-- Main File Actions Row -->
                     <div class="flex items-center justify-between mb-4">
                         <h3 id="current-level-title" class="font-bold text-lg text-[var(--color-text-main)]">جاري التحميل...</h3>
-                        <button onclick="openFileModal(null)" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2 px-4 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
-                            <span class="material-symbols-rounded text-sm">add</span>
-                            إضافة موضوع/فرض جديد
-                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="openFolderModal(null)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-1.5 transition-colors">
+                                <span class="material-symbols-rounded text-sm">create_new_folder</span>
+                                مجلد جديد
+                            </button>
+                            <button onclick="openFileModal(null)" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2 px-4 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
+                                <span class="material-symbols-rounded text-sm">add</span>
+                                إضافة موضوع جديد
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Breadcrumbs -->
+                    <div id="admin-breadcrumbs" class="flex items-center gap-2 mb-3 text-xs text-[var(--color-text-sub)]">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <!-- Bulk Actions Toolbar -->
+                    <div id="bulk-actions-bar" class="hidden items-center justify-between p-3 mb-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 rounded-xl transition-all flex-wrap gap-3">
+                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                            <span class="material-symbols-rounded">check_box</span>
+                            <span>تم تحديد <span id="selected-count">0</span> عناصر</span>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <button onclick="bulkSetNew(true)" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">auto_awesome</span>
+                                وضع جديد للكل
+                            </button>
+                            <button onclick="bulkSetNew(false)" class="border border-emerald-600/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">close</span>
+                                إزالة جديد للكل
+                            </button>
+                            <button onclick="bulkSetHidden(true)" class="bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">visibility_off</span>
+                                إخفاء للكل
+                            </button>
+                            <button onclick="bulkSetHidden(false)" class="border border-amber-600/50 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">visibility</span>
+                                إظهار للكل
+                            </button>
+                            <button onclick="openBulkMoveModal()" class="bg-cyan-800 hover:bg-cyan-900 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">drive_file_move</span>
+                                نقل لمجلد آخر
+                            </button>
+                            <button onclick="bulkDelete()" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                                <span class="material-symbols-rounded text-sm">delete</span>
+                                حذف المحدد
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Table Content -->
@@ -417,6 +468,9 @@
                         <table class="min-w-full text-right text-xs">
                             <thead class="bg-[var(--color-surface)] border-b border-[var(--color-surface-border)] text-[var(--color-text-sub)] font-bold text-[11px]">
                                 <tr>
+                                    <th scope="col" class="px-4 py-3 text-center w-10">
+                                        <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this)" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
+                                    </th>
                                     <th scope="col" class="px-4 py-3 text-center w-12">ترتيب</th>
                                     <th scope="col" class="px-6 py-3">عنوان الموضوع</th>
                                     <th scope="col" class="px-4 py-3 text-center">التاريخ</th>
@@ -469,9 +523,22 @@
                     <div>
                         <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">نوع الملف (التصنيف):</label>
                         <select id="file-type-input" required class="w-full text-xs p-3 custom-input bg-[var(--color-surface-dim)]">
-                            <option value="exam">فروض واختبارات</option>
-                            <option value="summary">ملخصات ودروس</option>
+                            <option value="devoir">الفرض</option>
+                            <option value="test">الإختبار</option>
+                            <option value="lesson">الدروس</option>
+                            <option value="summary">الملخصات</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2 py-1">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="file-is-new-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
+                        <label for="file-is-new-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">تعليم كملف جديد (سيظهر شريط متوهج ووسم جديد للطلاب)</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="file-is-hidden-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
+                        <label for="file-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">إخفاء هذا الملف عن الطلاب (لن يظهر في الصفحة الرئيسية)</label>
                     </div>
                 </div>
 
@@ -516,6 +583,34 @@
         </div>
     </div>
 
+    <!-- Create/Edit Folder Modal -->
+    <div id="folder-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity backdrop-blur-sm">
+        <div class="bg-[var(--color-surface)] w-[90%] max-w-sm rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-transform p-6 border border-[var(--color-surface-border)]">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--color-surface-border)] mb-4">
+                <h3 id="folder-modal-title" class="font-bold text-lg text-[var(--color-text-main)]">مجلد جديد</h3>
+                <button onclick="closeFolderModal()" class="p-1 rounded-full hover:bg-[var(--color-surface-dim)] text-[var(--color-text-sub)]">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            
+            <form id="folder-form" onsubmit="saveFolder(event)" class="space-y-4">
+                <input type="hidden" id="folder-edit-index">
+                <div>
+                    <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">اسم المجلد بالعربية:</label>
+                    <input type="text" id="folder-name-input" required placeholder="مثال: الفصل الأول" class="w-full text-xs p-3 custom-input">
+                </div>
+                <div class="flex items-center gap-2 py-1">
+                    <input type="checkbox" id="folder-is-hidden-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
+                    <label for="folder-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">إخفاء هذا المجلد عن الطلاب</label>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-[var(--color-surface-border)]">
+                    <button type="button" onclick="closeFolderModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2.5 px-4 rounded-xl transition-all">إلغاء</button>
+                    <button type="submit" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Create/Edit Level Modal -->
     <div id="level-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity backdrop-blur-sm">
         <div class="bg-[var(--color-surface)] w-[90%] max-w-sm rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-transform p-6 border border-[var(--color-surface-border)]">
@@ -542,6 +637,31 @@
                 <div class="flex justify-end gap-3 pt-4 border-t border-[var(--color-surface-border)]">
                     <button type="button" onclick="closeLevelModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2.5 px-4 rounded-xl transition-all">إلغاء</button>
                     <button type="submit" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm">حفظ القسم</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Move Selected Items Modal -->
+    <div id="move-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity backdrop-blur-sm">
+        <div class="bg-[var(--color-surface)] w-[90%] max-w-sm rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-transform p-6 border border-[var(--color-surface-border)]">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--color-surface-border)] mb-4">
+                <h3 class="font-bold text-lg text-[var(--color-text-main)]">نقل العناصر المحددة</h3>
+                <button onclick="closeMoveModal()" class="p-1 rounded-full hover:bg-[var(--color-surface-dim)] text-[var(--color-text-sub)]">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            
+            <form onsubmit="confirmBulkMove(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">اختر المجلد أو المستوى الوجهة:</label>
+                    <select id="move-destination-select" required class="w-full text-xs p-3 custom-input bg-[var(--color-surface-dim)]">
+                        <!-- Options injected dynamically -->
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-[var(--color-surface-border)]">
+                    <button type="button" onclick="closeMoveModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2.5 px-4 rounded-xl transition-all">إلغاء</button>
+                    <button type="submit" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm">تأكيد النقل</button>
                 </div>
             </form>
         </div>
@@ -601,6 +721,7 @@
         // LOCAL STATE
         let db = { ...templateData };
         let activeLevel = '2am';
+        let currentFolderIdPath = []; // Track nested folder ID path from level root
         let isUnsaved = false;
 
         // IN-MEMORY DECRYPTED CREDENTIALS
@@ -746,6 +867,46 @@
         // CORE LOGIN & RETRIEVE FLOW
         async function loginAndFetch(binId, password) {
             if (!binId || !password) return;
+            
+            // Local Mock Mode for testing
+            if (binId === 'mock' || new URLSearchParams(window.location.search).has('mock')) {
+                showLoader(true, 'جاري تشغيل الوضع التجريبي المحلي...');
+                setTimeout(() => {
+                    const savedMock = localStorage.getItem('mock_db');
+                    if (savedMock) {
+                        try {
+                            const parsed = JSON.parse(savedMock);
+                            db = parsed;
+                        } catch(e) {
+                            db = { ...templateData };
+                        }
+                    } else {
+                        db = { ...templateData };
+                    }
+                    activeLevel = '2am';
+                    
+                    credentials = {
+                        jsonbinKey: 'mock',
+                        jsonbinId: 'mock',
+                        gdriveKey: '',
+                        gdriveFolder: '',
+                        githubToken: '',
+                        githubRepo: '',
+                        githubBranch: 'main'
+                    };
+                    adminPassword = password;
+
+                    document.getElementById('active-bin-display').innerText = 'وضع تجريبي محلي';
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('dashboard-screen').classList.remove('hidden');
+                    isUnsaved = false;
+                    updateSyncStatus(true, 'متصل (وضع تجريبي محلي)');
+                    renderAll();
+                    showLoader(false);
+                }, 500);
+                return;
+            }
+
             showLoader(true, 'جاري التحقق من كلمة المرور وجلب البيانات من السحابة...');
             
             try {
@@ -803,7 +964,7 @@
                     delete db._levelNames;
                 }
                 
-                const levelKeys = Object.keys(db).filter(k => !k.startsWith('_'));
+                const levelKeys = getSortedLevelKeys();
                 levelKeys.forEach(level => {
                     if (!levelNames[level]) {
                         levelNames[level] = level.toUpperCase();
@@ -926,6 +1087,23 @@
 
         // PUBLISH TO CLOUD (PUT request)
         async function publishData() {
+            // Local Mock Mode publish
+            if (credentials.jsonbinId === 'mock' || new URLSearchParams(window.location.search).has('mock')) {
+                showLoader(true, 'جاري حفظ التعديلات في الذاكرة المحلية (Mock)...');
+                setTimeout(() => {
+                    localStorage.setItem('mock_db', JSON.stringify({
+                        ...db,
+                        _levelNames: { ...levelNames }
+                    }));
+                    alert('تم حفظ التعديلات محلياً بنجاح في الذاكرة (Mock Mode).');
+                    isUnsaved = false;
+                    updateSyncStatus(true, 'متصل (وضع تجريبي محلي)');
+                    renderAll();
+                    showLoader(false);
+                }, 400);
+                return;
+            }
+
             if (!credentials.jsonbinKey || !credentials.jsonbinId || !adminPassword) {
                 alert('عذراً، بيانات المزامنة ناقصة. يرجى إعادة تسجيل الدخول.');
                 return;
@@ -1021,8 +1199,18 @@
             }
         }
 
+        function getSortedLevelKeys() {
+            const rawKeys = Object.keys(db).filter(k => !k.startsWith('_'));
+            if (db._levelOrder && Array.isArray(db._levelOrder)) {
+                const existingOrder = db._levelOrder.filter(k => rawKeys.includes(k));
+                const missingKeys = rawKeys.filter(k => !existingOrder.includes(k));
+                return [...existingOrder, ...missingKeys];
+            }
+            return rawKeys;
+        }
+
         function renderStats() {
-            const levelKeys = Object.keys(db).filter(k => !k.startsWith('_'));
+            const levelKeys = getSortedLevelKeys();
             let fileCount = 0;
             let solCount = 0;
             
@@ -1044,7 +1232,7 @@
             const tabsContainer = document.getElementById('level-tabs');
             tabsContainer.innerHTML = '';
             
-            const levelKeys = Object.keys(db).filter(k => !k.startsWith('_'));
+            const levelKeys = getSortedLevelKeys();
             levelKeys.forEach(level => {
                 const btn = document.createElement('button');
                 btn.className = `px-4 py-2 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${
@@ -1056,20 +1244,228 @@
                 btn.onclick = () => selectLevel(level);
                 tabsContainer.appendChild(btn);
             });
+
+            // Update move level buttons state dynamically
+            const activeIndex = levelKeys.indexOf(activeLevel);
+            const btnRight = document.getElementById('move-level-right-btn');
+            const btnLeft = document.getElementById('move-level-left-btn');
+            
+            if (btnRight && btnLeft) {
+                if (activeIndex === -1 || levelKeys.length <= 1) {
+                    btnRight.disabled = true;
+                    btnRight.classList.add('opacity-40', 'cursor-not-allowed');
+                    btnLeft.disabled = true;
+                    btnLeft.classList.add('opacity-40', 'cursor-not-allowed');
+                } else {
+                    // Right button (chevron_right in RTL means towards index 0, i.e., index decreases)
+                    if (activeIndex === 0) {
+                        btnRight.disabled = true;
+                        btnRight.classList.add('opacity-40', 'cursor-not-allowed');
+                    } else {
+                        btnRight.disabled = false;
+                        btnRight.classList.remove('opacity-40', 'cursor-not-allowed');
+                    }
+                    
+                    // Left button (chevron_left in RTL means towards last index, i.e., index increases)
+                    if (activeIndex === levelKeys.length - 1) {
+                        btnLeft.disabled = true;
+                        btnLeft.classList.add('opacity-40', 'cursor-not-allowed');
+                    } else {
+                        btnLeft.disabled = false;
+                        btnLeft.classList.remove('opacity-40', 'cursor-not-allowed');
+                    }
+                }
+            }
+        }
+
+        function moveLevel(direction) {
+            const levelKeys = getSortedLevelKeys();
+            const index = levelKeys.indexOf(activeLevel);
+            if (index === -1) return;
+            
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= levelKeys.length) return;
+            
+            const temp = levelKeys[index];
+            levelKeys[index] = levelKeys[newIndex];
+            levelKeys[newIndex] = temp;
+            
+            db._levelOrder = levelKeys;
+            isUnsaved = true;
+            renderAll();
         }
 
         function selectLevel(level) {
             activeLevel = level;
+            currentFolderIdPath = []; // reset path
             renderAll();
         }
 
+        function getCurrentDirectoryContents() {
+            let currentDir = db[activeLevel] || [];
+            for (const folderId of currentFolderIdPath) {
+                const folder = currentDir.find(item => item.type === 'folder' && item.id === folderId);
+                if (folder && Array.isArray(folder.children)) {
+                    currentDir = folder.children;
+                } else {
+                    break;
+                }
+            }
+            return currentDir;
+        }
+
+        function enterFolder(folderId) {
+            currentFolderIdPath.push(folderId);
+            renderAll();
+        }
+
+        function exitFolder(index) {
+            currentFolderIdPath = currentFolderIdPath.slice(0, index);
+            renderAll();
+        }
+
+        function renderAdminBreadcrumbs() {
+            const container = document.getElementById('admin-breadcrumbs');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            // Level root
+            const rootSpan = document.createElement('span');
+            rootSpan.className = 'cursor-pointer hover:text-[var(--color-primary)] font-bold flex items-center gap-1';
+            rootSpan.innerHTML = `<span class="material-symbols-rounded text-sm">home</span> ${levelNames[activeLevel] || activeLevel}`;
+            rootSpan.onclick = () => {
+                currentFolderIdPath = [];
+                renderAll();
+            };
+            container.appendChild(rootSpan);
+            
+            // Traverse folders
+            let currentDir = db[activeLevel] || [];
+            currentFolderIdPath.forEach((folderId, idx) => {
+                const divider = document.createElement('span');
+                divider.className = 'material-symbols-rounded text-xs text-[var(--color-surface-border)]';
+                divider.innerText = 'chevron_left';
+                container.appendChild(divider);
+                
+                const folder = currentDir.find(item => item.type === 'folder' && item.id === folderId);
+                const span = document.createElement('span');
+                span.className = 'cursor-pointer hover:text-[var(--color-primary)] font-bold flex items-center gap-1';
+                span.innerHTML = `<span class="material-symbols-rounded text-sm">folder</span> ${folder ? folder.title : '...'}`;
+                span.onclick = () => exitFolder(idx + 1);
+                container.appendChild(span);
+                
+                if (folder && Array.isArray(folder.children)) {
+                    currentDir = folder.children;
+                }
+            });
+        }
+
+        function openFolderModal(index = null) {
+            const modal = document.getElementById('folder-modal');
+            document.getElementById('folder-form').reset();
+            document.getElementById('folder-edit-index').value = index !== null ? index : '';
+            
+            if (index !== null) {
+                const currentDir = getCurrentDirectoryContents();
+                const folder = currentDir[index];
+                document.getElementById('folder-modal-title').innerText = 'تعديل اسم المجلد';
+                document.getElementById('folder-name-input').value = folder.title;
+                document.getElementById('folder-is-hidden-input').checked = folder.isHidden || false;
+            } else {
+                document.getElementById('folder-modal-title').innerText = 'إنشاء مجلد جديد';
+                document.getElementById('folder-is-hidden-input').checked = false;
+            }
+            
+            modal.style.display = 'flex';
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            requestAnimationFrame(() => modal.classList.add('opacity-100'));
+        }
+
+        function closeFolderModal() {
+            const modal = document.getElementById('folder-modal');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+                modal.style.display = 'none';
+            }, 250);
+        }
+
+        function saveFolder(e) {
+            e.preventDefault();
+            const indexVal = document.getElementById('folder-edit-index').value;
+            const name = document.getElementById('folder-name-input').value.trim();
+            const currentDir = getCurrentDirectoryContents();
+            
+            if (indexVal !== '') {
+                // Edit
+                const idx = parseInt(indexVal);
+                currentDir[idx].title = name;
+                currentDir[idx].isHidden = document.getElementById('folder-is-hidden-input').checked;
+            } else {
+                // Add new folder
+                const newFolder = {
+                    id: 'fold_' + Date.now(),
+                    type: 'folder',
+                    title: name,
+                    children: [],
+                    isHidden: document.getElementById('folder-is-hidden-input').checked
+                };
+                currentDir.push(newFolder);
+            }
+            
+            isUnsaved = true;
+            closeFolderModal();
+            renderAll();
+        }
+
+        function countFilesRecursive(list) {
+            if (!Array.isArray(list)) return { files: 0, solutions: 0 };
+            let fileCount = 0;
+            let solCount = 0;
+            list.forEach(item => {
+                if (item.type === 'folder') {
+                    const subRes = countFilesRecursive(item.children);
+                    fileCount += subRes.files;
+                    solCount += subRes.solutions;
+                } else {
+                    fileCount++;
+                    if (item.solution && item.solution !== '#') solCount++;
+                }
+            });
+            return { files: fileCount, solutions: solCount };
+        }
+
+        function renderStats() {
+            const levelKeys = getSortedLevelKeys();
+            let fileCount = 0;
+            let solCount = 0;
+            
+            levelKeys.forEach(level => {
+                const list = db[level];
+                const counts = countFilesRecursive(list);
+                fileCount += counts.files;
+                solCount += counts.solutions;
+            });
+
+            document.getElementById('stat-levels').innerText = levelKeys.length;
+            document.getElementById('stat-files').innerText = fileCount;
+            document.getElementById('stat-solutions').innerText = solCount;
+        }
+
         function renderTable() {
-            const files = db[activeLevel] || [];
+            const files = getCurrentDirectoryContents();
             const tbody = document.getElementById('files-table-body');
             const emptyState = document.getElementById('table-empty-state');
             
             document.getElementById('current-level-title').innerText = levelNames[activeLevel] || activeLevel;
             tbody.innerHTML = '';
+
+            // Reset Selection State on table redraw
+            selectedIndexes = [];
+            const master = document.getElementById('select-all-checkbox');
+            if (master) master.checked = false;
+            updateBulkActionsBar();
 
             if (files.length === 0) {
                 emptyState.classList.remove('hidden');
@@ -1082,69 +1478,163 @@
 
             files.forEach((file, index) => {
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)]';
+                row.className = 'hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)]' + (file.isHidden ? ' opacity-65 bg-gray-50/40 dark:bg-gray-900/10' : '');
                 
-                const hasAssign = file.assignment && file.assignment !== '#';
-                const hasSol = file.solution && file.solution !== '#';
+                if (file.type === 'folder') {
+                    // Render Folder Row
+                    let folderTitleHTML = `
+                        <button onclick="enterFolder('${file.id}')" class="flex items-center gap-2 text-cyan-800 dark:text-cyan-300 font-bold hover:underline">
+                            <span class="material-symbols-rounded text-amber-500">folder</span>
+                            ${file.title}
+                        </button>
+                    `;
+                    if (file.isHidden) {
+                        folderTitleHTML = `
+                            <div class="flex items-center gap-2">
+                                <button onclick="enterFolder('${file.id}')" class="flex items-center gap-2 text-cyan-800 dark:text-cyan-300 font-bold hover:underline opacity-65">
+                                    <span class="material-symbols-rounded text-amber-500/60">folder</span>
+                                    ${file.title}
+                                </button>
+                                <span class="material-symbols-rounded text-sm text-amber-500">visibility_off</span>
+                                <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">مخفي</span>
+                            </div>
+                        `;
+                    }
 
-                const assignBadge = hasAssign 
-                    ? `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-800"><span class="material-symbols-rounded text-base">check</span></span>`
-                    : `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-100 text-rose-800"><span class="material-symbols-rounded text-base">close</span></span>`;
-                
-                const solBadge = hasSol 
-                    ? `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-800"><span class="material-symbols-rounded text-base">check</span></span>`
-                    : `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-100 text-rose-800"><span class="material-symbols-rounded text-base">close</span></span>`;
+                    row.innerHTML = `
+                        <td class="px-4 py-3 text-center">
+                            <input type="checkbox" class="row-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4" data-index="${index}" onchange="toggleRowSelect(${index}, this.checked)">
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            <div class="flex flex-col gap-1 items-center justify-center">
+                                <button onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
+                                    <span class="material-symbols-rounded text-base">arrow_drop_up</span>
+                                </button>
+                                <button onclick="moveItem(${index}, 1)" ${index === files.length - 1 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
+                                    <span class="material-symbols-rounded text-base">arrow_drop_down</span>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3 font-bold text-[var(--color-text-main)]">
+                            ${folderTitleHTML}
+                        </td>
+                        <td class="px-4 py-3 text-center text-[var(--color-text-sub)]">-</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-100/50 border border-amber-200/50 text-amber-800 dark:text-amber-300">مجلد</span>
+                        </td>
+                        <td class="px-4 py-3 text-center">-</td>
+                        <td class="px-4 py-3 text-center">-</td>
+                        <td class="px-6 py-3 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="openFolderModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md">
+                                    <span class="material-symbols-rounded text-base">edit</span>
+                                </button>
+                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md">
+                                    <span class="material-symbols-rounded text-base">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                } else {
+                    // Render File Row
+                    const hasAssign = file.assignment && file.assignment !== '#';
+                    const hasSol = file.solution && file.solution !== '#';
 
-                const typeBadge = file.type === 'summary' 
-                    ? `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-indigo-50 border border-indigo-200 text-indigo-800">ملخص</span>`
-                    : (file.title.includes('فرض') 
-                        ? `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-800">فرض</span>`
-                        : `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-rose-50 border border-rose-200 text-rose-800">اختبار</span>`);
+                    const assignBadge = hasAssign 
+                        ? `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-800"><span class="material-symbols-rounded text-base">check</span></span>`
+                        : `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-100 text-rose-800"><span class="material-symbols-rounded text-base">close</span></span>`;
+                    
+                    const solBadge = hasSol 
+                        ? `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-800"><span class="material-symbols-rounded text-base">check</span></span>`
+                        : `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-100 text-rose-800"><span class="material-symbols-rounded text-base">close</span></span>`;
 
-                row.innerHTML = `
-                    <td class="px-4 py-3 text-center">
-                        <div class="flex flex-col gap-1 items-center justify-center">
-                            <button onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
-                                <span class="material-symbols-rounded text-base">arrow_drop_up</span>
-                            </button>
-                            <button onclick="moveItem(${index}, 1)" ${index === files.length - 1 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
-                                <span class="material-symbols-rounded text-base">arrow_drop_down</span>
-                            </button>
-                        </div>
-                    </td>
-                    <td class="px-6 py-3 font-bold text-[var(--color-text-main)]">${file.title}</td>
-                    <td class="px-4 py-3 text-center text-[var(--color-text-sub)]">${file.date}</td>
-                    <td class="px-4 py-3 text-center">${typeBadge}</td>
-                    <td class="px-4 py-3 text-center">${assignBadge}</td>
-                    <td class="px-4 py-3 text-center">${solBadge}</td>
-                    <td class="px-6 py-3 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <button onclick="openFileModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md">
-                                <span class="material-symbols-rounded text-base">edit</span>
-                            </button>
-                            <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md">
-                                <span class="material-symbols-rounded text-base">delete</span>
-                            </button>
-                        </div>
-                    </td>
-                `;
+                    let typeBadge = '';
+                    if (file.type === 'devoir') {
+                        typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-800">فرض</span>`;
+                    } else if (file.type === 'test') {
+                        typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-rose-50 border border-rose-200 text-rose-800">اختبار</span>`;
+                    } else if (file.type === 'lesson') {
+                        typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-800">درس</span>`;
+                    } else if (file.type === 'summary') {
+                        typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-indigo-50 border border-indigo-200 text-indigo-800">ملخص</span>`;
+                    } else {
+                        // Fallback for old data format
+                        if (file.type === 'exam') {
+                            if (file.title.includes('فرض')) {
+                                typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-800">فرض</span>`;
+                            } else {
+                                typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-rose-50 border border-rose-200 text-rose-800">اختبار</span>`;
+                            }
+                        } else {
+                            typeBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-indigo-50 border border-indigo-200 text-indigo-800">ملخص</span>`;
+                        }
+                    }
+
+                    const titleHTML = file.isNew 
+                        ? `<span class="flex items-center gap-1.5">${file.title} <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-900/50 animate-pulse">جديد</span></span>`
+                        : file.title;
+
+                    if (file.isHidden) {
+                        titleHTML = `
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-rounded text-sm text-amber-500">visibility_off</span>
+                                <span class="opacity-65">${titleHTML}</span>
+                                <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">مخفي</span>
+                            </div>
+                        `;
+                    }
+
+                    row.innerHTML = `
+                        <td class="px-4 py-3 text-center">
+                            <input type="checkbox" class="row-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4" data-index="${index}" onchange="toggleRowSelect(${index}, this.checked)">
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            <div class="flex flex-col gap-1 items-center justify-center">
+                                <button onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
+                                    <span class="material-symbols-rounded text-base">arrow_drop_up</span>
+                                </button>
+                                <button onclick="moveItem(${index}, 1)" ${index === files.length - 1 ? 'disabled class="opacity-20"' : 'class="hover:text-[var(--color-primary)]"'}>
+                                    <span class="material-symbols-rounded text-base">arrow_drop_down</span>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3 font-bold text-[var(--color-text-main)]">${titleHTML}</td>
+                        <td class="px-4 py-3 text-center text-[var(--color-text-sub)]">${file.date}</td>
+                        <td class="px-4 py-3 text-center">${typeBadge}</td>
+                        <td class="px-4 py-3 text-center">${assignBadge}</td>
+                        <td class="px-4 py-3 text-center">${solBadge}</td>
+                        <td class="px-6 py-3 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="openFileModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md">
+                                    <span class="material-symbols-rounded text-base">edit</span>
+                                </button>
+                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md">
+                                    <span class="material-symbols-rounded text-base">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                }
                 tbody.appendChild(row);
             });
         }
 
         // CRUD: Move Items for custom sorting
         function moveItem(index, direction) {
-            const files = db[activeLevel] || [];
+            const currentDir = getCurrentDirectoryContents();
             const newIndex = index + direction;
-            if (newIndex < 0 || newIndex >= files.length) return;
+            if (newIndex < 0 || newIndex >= currentDir.length) return;
 
-            const temp = files[index];
-            files[index] = files[newIndex];
-            files[newIndex] = temp;
+            const temp = currentDir[index];
+            currentDir[index] = currentDir[newIndex];
+            currentDir[newIndex] = temp;
             
             isUnsaved = true;
             renderAll();
         }
+
+        // Selection State
+        let selectedIndexes = [];
 
         // CRUD: File modal functions
         function openFileModal(index) {
@@ -1155,17 +1645,27 @@
             document.getElementById('file-date-input').value = new Date().toISOString().split('T')[0];
 
             if (index !== null) {
-                const file = db[activeLevel][index];
+                const currentDir = getCurrentDirectoryContents();
+                const file = currentDir[index];
                 document.getElementById('file-modal-title').innerText = 'تعديل بيانات الموضوع';
                 document.getElementById('file-id').value = index;
                 document.getElementById('file-title-input').value = file.title;
                 document.getElementById('file-date-input').value = file.date;
-                document.getElementById('file-type-input').value = file.type || 'exam';
+                
+                let resolvedType = file.type || 'devoir';
+                if (resolvedType === 'exam') {
+                    resolvedType = file.title.includes('فرض') ? 'devoir' : 'test';
+                }
+                document.getElementById('file-type-input').value = resolvedType;
                 document.getElementById('file-assignment-input').value = file.assignment || '';
                 document.getElementById('file-solution-input').value = file.solution || '';
+                document.getElementById('file-is-new-input').checked = file.isNew || false;
+                document.getElementById('file-is-hidden-input').checked = file.isHidden || false;
             } else {
                 document.getElementById('file-modal-title').innerText = 'إضافة موضوع جديد للأرشيف';
                 document.getElementById('file-id').value = '';
+                document.getElementById('file-is-new-input').checked = false;
+                document.getElementById('file-is-hidden-input').checked = false;
             }
 
             modal.style.display = 'flex';
@@ -1186,21 +1686,23 @@
         function saveFile(e) {
             e.preventDefault();
             const index = document.getElementById('file-id').value;
+            const currentDir = getCurrentDirectoryContents();
             
             const fileData = {
-                id: index !== '' ? db[activeLevel][index].id : Date.now(), 
+                id: index !== '' ? currentDir[index].id : Date.now(), 
                 title: document.getElementById('file-title-input').value.trim(),
                 date: document.getElementById('file-date-input').value,
                 type: document.getElementById('file-type-input').value,
                 assignment: document.getElementById('file-assignment-input').value.trim() || '#',
-                solution: document.getElementById('file-solution-input').value.trim() || '#'
+                solution: document.getElementById('file-solution-input').value.trim() || '#',
+                isNew: document.getElementById('file-is-new-input').checked,
+                isHidden: document.getElementById('file-is-hidden-input').checked
             };
 
             if (index !== '') {
-                db[activeLevel][index] = fileData;
+                currentDir[index] = fileData;
             } else {
-                if (!db[activeLevel]) db[activeLevel] = [];
-                db[activeLevel].push(fileData);
+                currentDir.push(fileData);
             }
 
             isUnsaved = true;
@@ -1209,11 +1711,222 @@
         }
 
         function deleteFile(index) {
-            if (confirm('هل أنت متأكد من رغبتك في حذف هذا الملف نهائياً؟')) {
-                db[activeLevel].splice(index, 1);
+            if (confirm('هل أنت متأكد من رغبتك في حذف هذا العنصر نهائياً؟')) {
+                const currentDir = getCurrentDirectoryContents();
+                currentDir.splice(index, 1);
                 isUnsaved = true;
                 renderAll();
             }
+        }
+
+        // --- ROW SELECTION & BULK ACTIONS HELPERS ---
+        function toggleSelectAll(master) {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            selectedIndexes = [];
+            checkboxes.forEach(cb => {
+                cb.checked = master.checked;
+                const idx = parseInt(cb.getAttribute('data-index'));
+                if (master.checked) {
+                    selectedIndexes.push(idx);
+                }
+            });
+            updateBulkActionsBar();
+        }
+
+        function toggleRowSelect(idx, checked) {
+            if (checked) {
+                if (!selectedIndexes.includes(idx)) {
+                    selectedIndexes.push(idx);
+                }
+            } else {
+                selectedIndexes = selectedIndexes.filter(i => i !== idx);
+            }
+            
+            // Sync select-all checkbox
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            const master = document.getElementById('select-all-checkbox');
+            if (master) {
+                master.checked = checkboxes.length > 0 && Array.from(checkboxes).every(cb => cb.checked);
+            }
+            
+            updateBulkActionsBar();
+        }
+
+        function updateBulkActionsBar() {
+            const bar = document.getElementById('bulk-actions-bar');
+            const countSpan = document.getElementById('selected-count');
+            if (!bar || !countSpan) return;
+            
+            if (selectedIndexes.length > 0) {
+                countSpan.innerText = selectedIndexes.length;
+                bar.classList.remove('hidden');
+                bar.classList.add('flex');
+            } else {
+                bar.classList.add('hidden');
+                bar.classList.remove('flex');
+            }
+        }
+
+        function bulkSetNew(status) {
+            const currentDir = getCurrentDirectoryContents();
+            let affected = 0;
+            selectedIndexes.forEach(idx => {
+                const item = currentDir[idx];
+                if (item && item.type !== 'folder') {
+                    item.isNew = status;
+                    affected++;
+                }
+            });
+            if (affected > 0) {
+                isUnsaved = true;
+                renderAll();
+                alert(`تم ${status ? 'تعيين وسم جديد لـ' : 'إزالة وسم جديد عن'} ${affected} ملفات.`);
+            } else {
+                alert('الرجاء تحديد ملفات فقط (المجلدات لا تدعم وسم جديد).');
+            }
+        }
+
+        function bulkSetHidden(status) {
+            const currentDir = getCurrentDirectoryContents();
+            selectedIndexes.forEach(idx => {
+                const item = currentDir[idx];
+                if (item) {
+                    item.isHidden = status;
+                }
+            });
+            isUnsaved = true;
+            renderAll();
+            alert(`تم ${status ? 'إخفاء' : 'إظهار'} ${selectedIndexes.length} عناصر عن الطلاب.`);
+        }
+
+        function bulkDelete() {
+            if (!confirm(`هل أنت متأكد من رغبتك في حذف ${selectedIndexes.length} عناصر محددة نهائياً؟`)) {
+                return;
+            }
+            const currentDir = getCurrentDirectoryContents();
+            const sortedIndices = [...selectedIndexes].sort((a, b) => b - a);
+            sortedIndices.forEach(idx => {
+                currentDir.splice(idx, 1);
+            });
+            isUnsaved = true;
+            renderAll();
+        }
+
+        function getFolderTree() {
+            const list = [];
+            const levelKeys = getSortedLevelKeys();
+            
+            levelKeys.forEach(level => {
+                const label = levelNames[level] || level;
+                list.push({
+                    id: level,
+                    title: `${label} (الرئيسية)`,
+                    level: level,
+                    path: []
+                });
+                
+                const traverse = (items, path, depth) => {
+                    items.forEach(item => {
+                        if (item.type === 'folder') {
+                            const prefix = '  '.repeat(depth) + '└── ';
+                            const currentPath = [...path, item.id];
+                            list.push({
+                                id: item.id,
+                                title: prefix + item.title,
+                                level: level,
+                                path: currentPath
+                            });
+                            if (Array.isArray(item.children)) {
+                                traverse(item.children, currentPath, depth + 1);
+                            }
+                        }
+                    });
+                };
+                
+                const levelItems = db[level] || [];
+                traverse(levelItems, [], 1);
+            });
+            return list;
+        }
+
+        function openBulkMoveModal() {
+            const modal = document.getElementById('move-modal');
+            const select = document.getElementById('move-destination-select');
+            if (!modal || !select) return;
+            
+            select.innerHTML = '';
+            
+            const currentDir = getCurrentDirectoryContents();
+            const selectedItems = selectedIndexes.map(idx => currentDir[idx]);
+            const selectedFolderIds = selectedItems.filter(item => item.type === 'folder').map(item => item.id);
+            
+            const tree = getFolderTree();
+            tree.forEach(dest => {
+                // Safety: Cannot move folders into themselves or their subfolders
+                const isInvalid = selectedFolderIds.some(id => dest.path.includes(id));
+                const isSelf = selectedFolderIds.some(id => dest.id === id);
+                
+                if (!isInvalid && !isSelf) {
+                    const opt = document.createElement('option');
+                    opt.value = JSON.stringify({ level: dest.level, path: dest.path });
+                    opt.innerText = dest.title;
+                    select.appendChild(opt);
+                }
+            });
+            
+            modal.style.display = 'flex';
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            requestAnimationFrame(() => modal.classList.add('opacity-100'));
+        }
+
+        function closeMoveModal() {
+            const modal = document.getElementById('move-modal');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+                modal.style.display = 'none';
+            }, 250);
+        }
+
+        function confirmBulkMove(e) {
+            e.preventDefault();
+            const destVal = document.getElementById('move-destination-select').value;
+            if (!destVal) return;
+            
+            const dest = JSON.parse(destVal);
+            const currentDir = getCurrentDirectoryContents();
+            const itemsToMove = [];
+            
+            const sortedIndices = [...selectedIndexes].sort((a, b) => b - a);
+            sortedIndices.forEach(idx => {
+                itemsToMove.push(currentDir[idx]);
+                currentDir.splice(idx, 1);
+            });
+            itemsToMove.reverse();
+            
+            let destDir = db[dest.level];
+            if (!destDir) {
+                db[dest.level] = [];
+                destDir = db[dest.level];
+            }
+            
+            for (const folderId of dest.path) {
+                const folder = destDir.find(item => item.type === 'folder' && item.id === folderId);
+                if (folder) {
+                    if (!Array.isArray(folder.children)) folder.children = [];
+                    destDir = folder.children;
+                } else {
+                    break;
+                }
+            }
+            
+            destDir.push(...itemsToMove);
+            
+            isUnsaved = true;
+            closeMoveModal();
+            renderAll();
+            alert(`تم نقل ${itemsToMove.length} عناصر بنجاح.`);
         }
 
         // CRUD: Level functions
@@ -1266,6 +1979,13 @@
                 db[key] = [];
                 levelNames[key] = name;
                 activeLevel = key;
+                
+                // Keep _levelOrder in sync
+                if (db._levelOrder && Array.isArray(db._levelOrder)) {
+                    db._levelOrder.push(key);
+                } else {
+                    db._levelOrder = getSortedLevelKeys();
+                }
             } else {
                 levelNames[key] = name;
             }
@@ -1277,10 +1997,16 @@
 
         function deleteCurrentLevel() {
             if (confirm(`تحذير هام: سيؤدي هذا إلى حذف مستوى "${levelNames[activeLevel] || activeLevel}" وجميع الفروض المدرجة تحته! \nهل أنت متأكد من الحذف؟`)) {
+                const deletedLevel = activeLevel;
                 delete db[activeLevel];
                 delete levelNames[activeLevel];
                 
-                const keys = Object.keys(db);
+                // Keep _levelOrder in sync
+                if (db._levelOrder && Array.isArray(db._levelOrder)) {
+                    db._levelOrder = db._levelOrder.filter(k => k !== deletedLevel);
+                }
+                
+                const keys = getSortedLevelKeys();
                 if (keys.length > 0) {
                     activeLevel = keys[0];
                 } else {
@@ -1522,7 +2248,12 @@
                 .toLowerCase();
                 
             const fileType = document.getElementById('file-type-input').value || 'other';
-            const nature = fileType === 'exam' ? 'فروض واختبارات' : (fileType === 'summary' ? 'ملخصات ودروس' : fileType);
+            let nature = 'أخرى';
+            if (fileType === 'devoir') nature = 'فروض';
+            else if (fileType === 'test') nature = 'اختبارات';
+            else if (fileType === 'lesson') nature = 'دروس';
+            else if (fileType === 'summary') nature = 'ملخصات';
+            else nature = fileType;
             const extUpper = ext.toUpperCase();
             const filename = `${cleanName}-${Date.now()}.${ext}`;
             const path = `archive/${activeLevel}/${nature}/${extUpper}/${filename}`;
@@ -1799,7 +2530,16 @@
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
                         const fileType = file.type || 'other';
-                        const nature = fileType === 'exam' ? 'فروض واختبارات' : (fileType === 'summary' ? 'ملخصات ودروس' : fileType);
+                        let nature = 'أخرى';
+                        if (fileType === 'devoir') nature = 'فروض';
+                        else if (fileType === 'test') nature = 'اختبارات';
+                        else if (fileType === 'lesson') nature = 'دروس';
+                        else if (fileType === 'summary') nature = 'ملخصات';
+                        else if (fileType === 'exam') {
+                            nature = file.title.includes('فرض') ? 'فروض' : 'اختبارات';
+                        } else {
+                            nature = fileType;
+                        }
                         
                         // Reorganize assignment
                         if (file.assignment && file.assignment !== 'null' && file.assignment !== '#') {

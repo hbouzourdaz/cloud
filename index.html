@@ -560,98 +560,105 @@
             <!-- Dynamic folders injected by JS -->
             <div id="dynamic-folders"></div>
 
-            <!-- Folder: Personal Site -->
-            <a href="https://hbouzourdaz21.vercel.app/" target="_blank"
-                class="folder-card group full-width-mobile border-primary/20 hover:border-[var(--color-primary)]">
+            <!-- Homepage Static Cards -->
+            <div id="homepage-static-cards" style="display: contents;">
+                <!-- Folder: Personal Site -->
+                <a href="https://hbouzourdaz21.vercel.app/" target="_blank"
+                    class="folder-card group full-width-mobile border-primary/20 hover:border-[var(--color-primary)]">
 
-                <!-- Layout: Row on Mobile (via CSS), Column on Desktop -->
-                <div class="flex md:flex-row justify-between items-start md:mb-1">
-                    <div
-                        class="w-14 h-14 md:w-auto md:h-auto bg-[var(--color-primary)] md:bg-transparent text-white md:text-[var(--color-primary)] rounded-xl md:rounded-none flex items-center justify-center shrink-0 shadow-lg md:shadow-none shadow-[var(--color-primary)]/20">
+                    <!-- Layout: Row on Mobile (via CSS), Column on Desktop -->
+                    <div class="flex md:flex-row justify-between items-start md:mb-1">
+                        <div
+                            class="w-14 h-14 md:w-auto md:h-auto bg-[var(--color-primary)] md:bg-transparent text-white md:text-[var(--color-primary)] rounded-xl md:rounded-none flex items-center justify-center shrink-0 shadow-lg md:shadow-none shadow-[var(--color-primary)]/20">
+                            <span
+                                class="material-symbols-rounded text-3xl md:text-[48px] group-hover:rotate-[360deg] transition-transform duration-1000">globe_asia</span>
+                        </div>
                         <span
-                            class="material-symbols-rounded text-3xl md:text-[48px] group-hover:rotate-[360deg] transition-transform duration-1000">globe_asia</span>
+                            class="material-symbols-rounded text-[var(--color-text-sub)] opacity-20 -rotate-45 group-hover:rotate-0 transition-transform hidden md:block">arrow_outward</span>
                     </div>
-                    <span
-                        class="material-symbols-rounded text-[var(--color-text-sub)] opacity-20 -rotate-45 group-hover:rotate-0 transition-transform hidden md:block">arrow_outward</span>
-                </div>
 
-                <div class="flex-1 md:flex-none">
-                    <h3 class="font-bold text-base md:text-lg text-[var(--color-text-main)]">الموقع الشخصي</h3>
-                    <p
-                        class="text-[10px] md:text-xs text-[var(--color-text-sub)] mt-0.5 md:mt-1 leading-relaxed md:line-clamp-2">
-                        الموقع الشخصي للأستاذ يحتوي على مشاريعه البرمجية ومعلومات التواصل.</p>
-                </div>
-
-                <!-- Desktop Footer -->
-                <div
-                    class="hidden md:flex mt-auto pt-2 border-t border-[var(--color-surface-border)] w-full items-center gap-2 text-xs text-[var(--color-text-sub)]">
-                    <span class="material-symbols-rounded text-[14px]">public</span>
-                    رابط خارجي
-                </div>
-
-                <!-- Mobile Arrow -->
-                <span
-                    class="material-symbols-rounded text-[var(--color-text-sub)] opacity-30 md:hidden ml-auto">arrow_forward_ios</span>
-            </a>
-
-            <!-- Contact Card -->
-            <a href="mailto:hbouzourdaz@gmail.com"
-                class="col-span-full full-width-mobile bg-[var(--color-surface-dim)] border border-dashed border-[var(--color-surface-border)] rounded-2xl p-4 flex items-center justify-between group hover:border-[var(--color-primary)] transition-all no-underline">
-                <div class="flex items-center gap-4">
-                    <div
-                        class="w-10 h-10 md:w-12 md:h-12 bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/20 border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/40 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                        <span
-                            class="material-symbols-rounded text-[var(--color-primary)] text-xl md:text-2xl">alternate_email</span>
-                    </div>
-                    <div>
+                    <div class="flex-1 md:flex-none">
+                        <h3 class="font-bold text-base md:text-lg text-[var(--color-text-main)]">الموقع الشخصي</h3>
                         <p
-                            class="text-[10px] md:text-[11px] text-[var(--color-text-sub)] font-bold uppercase tracking-wider mb-0.5">
-                            للتواصل</p>
-                        <span
-                            class="text-sm md:text-base font-bold text-[var(--color-text-main)] group-hover:text-[var(--color-primary)] transition-colors">hbouzourdaz@gmail.com</span>
+                            class="text-[10px] md:text-xs text-[var(--color-text-sub)] mt-0.5 md:mt-1 leading-relaxed md:line-clamp-2">
+                            الموقع الشخصي للأستاذ يحتوي على مشاريعه البرمجية ومعلومات التواصل.</p>
+                    </div>
+
+                    <!-- Desktop Footer -->
+                    <div
+                        class="hidden md:flex mt-auto pt-2 border-t border-[var(--color-surface-border)] w-full items-center gap-2 text-xs text-[var(--color-text-sub)]">
+                        <span class="material-symbols-rounded text-[14px]">public</span>
+                        رابط خارجي
+                    </div>
+
+                    <!-- Mobile Arrow -->
+                    <span
+                        class="material-symbols-rounded text-[var(--color-text-sub)] opacity-30 md:hidden ml-auto">arrow_forward_ios</span>
+                </a>
+
+                <!-- Contact Card -->
+                <a href="mailto:hbouzourdaz@gmail.com"
+                    class="col-span-full full-width-mobile bg-[var(--color-surface-dim)] border border-dashed border-[var(--color-surface-border)] rounded-2xl p-4 flex items-center justify-between group hover:border-[var(--color-primary)] transition-all no-underline">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 md:w-12 md:h-12 bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/20 border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/40 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <span
+                                class="material-symbols-rounded text-[var(--color-primary)] text-xl md:text-2xl">alternate_email</span>
+                        </div>
+                        <div>
+                            <p
+                                class="text-[10px] md:text-[11px] text-[var(--color-text-sub)] font-bold uppercase tracking-wider mb-0.5">
+                                للتواصل</p>
+                            <span
+                                class="text-sm md:text-base font-bold text-[var(--color-text-main)] group-hover:text-[var(--color-primary)] transition-colors">hbouzourdaz@gmail.com</span>
+                        </div>
+                    </div>
+                    <div
+                        class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shadow-md transition-all group-hover:scale-110">
+                        <span class="material-symbols-rounded text-lg">send</span>
+                    </div>
+                </a>
+            </div>
+
+        </section>
+
+        <!-- FILE LIST SECTION -->
+        <div id="file-section" class="hidden flex flex-col gap-3">
+            <section id="file-view" class="file-list-container">
+                <!-- Search & Filters -->
+                <div id="filter-wrapper" class="p-4 border-b border-[var(--color-surface-border)] flex flex-col gap-4">
+                    <!-- Filter Chips -->
+                    <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar" id="filter-chips">
+                        <button class="filter-chip active px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
+                            data-filter="all">الكل</button>
+                        <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
+                            data-filter="devoir">فروض</button>
+                        <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
+                            data-filter="test">اختبارات</button>
+                        <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
+                            data-filter="lesson">دروس</button>
+                        <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
+                            data-filter="summary">ملخصات</button>
                     </div>
                 </div>
-                <div
-                    class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shadow-md transition-all group-hover:scale-110">
-                    <span class="material-symbols-rounded text-lg">send</span>
+
+                <div class="file-list-header">
+                    <span>اسم الملف</span>
+                    <span class="hidden md:inline">تاريخ الاضافة</span>
+                    <span>الاجراءات</span>
                 </div>
-            </a>
 
-        </section>
-
-        <!-- FILE LIST VIEW -->
-        <section id="file-view" class="file-list-container">
-            <!-- Search & Filters -->
-            <div class="p-4 border-b border-[var(--color-surface-border)] flex flex-col gap-4">
-                <!-- Filter Chips -->
-                <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar" id="filter-chips">
-                    <button class="filter-chip active px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
-                        data-filter="all">الكل</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
-                        data-filter="exam">فروض</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
-                        data-filter="test">اختبارات</button>
-                    <button class="filter-chip px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap"
-                        data-filter="summary">ملخصات</button>
+                <div id="file-list-body">
+                    <!-- Injected via JS -->
                 </div>
-            </div>
 
-            <div class="file-list-header">
-                <span>اسم الملف</span>
-                <span class="hidden md:inline">تاريخ الاضافة</span>
-                <span>الاجراءات</span>
-            </div>
-
-            <div id="file-list-body">
-                <!-- Injected via JS -->
-            </div>
-
-            <div id="empty-state"
-                class="hidden flex-col items-center justify-center py-16 text-[var(--color-text-sub)]">
-                <span class="material-symbols-rounded text-6xl opacity-20 mb-4">folder_open</span>
-                <p>لا توجد ملفات في هذا المجلد حالياً</p>
-            </div>
-        </section>
+                <div id="empty-state"
+                    class="hidden flex-col items-center justify-center py-16 text-[var(--color-text-sub)]">
+                    <span class="material-symbols-rounded text-6xl opacity-20 mb-4">folder_open</span>
+                    <p>لا توجد ملفات في هذا المجلد حالياً</p>
+                </div>
+            </section>
+        </div>
 
         <!-- Footer -->
         <footer
@@ -849,6 +856,8 @@
         const emptyState = document.getElementById('empty-state');
         const breadcrumbs = document.getElementById('breadcrumbs');
         const preloader = document.getElementById('preloader');
+        
+        const fileSection = document.getElementById('file-section');
 
         // STATE
         let currentPath = []; // ['root'] or ['root', '2am']
@@ -908,6 +917,30 @@
 
         // Dynamic Data Fetching
         async function fetchDynamicData() {
+            // Check for mock data in localStorage first (Mock Mode support)
+            const savedMock = localStorage.getItem('mock_db');
+            if (savedMock) {
+                try {
+                    const parsed = JSON.parse(savedMock);
+                    if (parsed._levelNames && typeof parsed._levelNames === 'object') {
+                        Object.assign(levelNames, parsed._levelNames);
+                        delete parsed._levelNames;
+                    }
+                    data = parsed;
+                    // Auto-generate levelNames for any keys not already named
+                    Object.keys(data).forEach(key => {
+                        if (key.startsWith('_')) return;
+                        if (!levelNames[key]) {
+                            levelNames[key] = key.toUpperCase();
+                        }
+                    });
+                    console.log('Successfully loaded mock data from localStorage:', Object.keys(data));
+                    return;
+                } catch(e) {
+                    console.error('Failed to parse mock_db from localStorage', e);
+                }
+            }
+
             const activeBinId = localStorage.getItem('jsonbin_bin_id') || localStorage.getItem('saved_bin_id') || JSONBIN_BIN_ID;
             if (!activeBinId) {
                 console.log('No JSONBin Bin ID configured. Using local static fallback data.');
@@ -945,6 +978,7 @@
                     
                     // Auto-generate levelNames for any keys not already named
                     Object.keys(data).forEach(key => {
+                        if (key.startsWith('_')) return; // Skip internal/metadata keys
                         if (!levelNames[key]) {
                             levelNames[key] = key.toUpperCase();
                         }
@@ -957,6 +991,32 @@
             }
         }
 
+        // SORT HELPER
+        function getSortedLevelKeys() {
+            const rawKeys = Object.keys(data).filter(k => !k.startsWith('_'));
+            if (data._levelOrder && Array.isArray(data._levelOrder)) {
+                const existingOrder = data._levelOrder.filter(k => rawKeys.includes(k));
+                const missingKeys = rawKeys.filter(k => !existingOrder.includes(k));
+                return [...existingOrder, ...missingKeys];
+            }
+            return rawKeys;
+        }
+
+        // VISIBLE FILES COUNT HELPER
+        function countVisibleFilesRecursive(list) {
+            if (!Array.isArray(list)) return 0;
+            let fileCount = 0;
+            list.forEach(item => {
+                if (item.isHidden) return;
+                if (item.type === 'folder') {
+                    fileCount += countVisibleFilesRecursive(item.children);
+                } else {
+                    fileCount++;
+                }
+            });
+            return fileCount;
+        }
+
         // RENDER FOLDERS DYNAMICALLY
         function renderFolders() {
             const container = document.getElementById('dynamic-folders');
@@ -965,11 +1025,11 @@
             const folderIcons = ['science', 'school', 'biotech', 'psychology', 'calculate', 'auto_stories', 'menu_book', 'labs'];
             let iconIndex = 0;
 
-            Object.keys(data).forEach(key => {
-                if (key.startsWith('_')) return; // Skip internal keys
+            const levelKeys = getSortedLevelKeys();
+            levelKeys.forEach(key => {
                 const files = data[key] || [];
                 const name = levelNames[key] || key.toUpperCase();
-                const fileCount = files.length;
+                const fileCount = countVisibleFilesRecursive(files);
                 const icon = folderIcons[iconIndex % folderIcons.length];
                 iconIndex++;
 
@@ -1030,10 +1090,30 @@
         });
 
         // ACTIONS
+        function resetFilter() {
+            currentFilter = 'all';
+            document.querySelectorAll('.filter-chip').forEach(c => {
+                if (c.getAttribute('data-filter') === 'all') {
+                    c.classList.add('active');
+                } else {
+                    c.classList.remove('active');
+                }
+            });
+        }
+
         function openLevel(levelKey) {
             showLoading(() => {
                 currentPath = ['root', levelKey];
                 localStorage.setItem('currentLevel', levelKey);
+                resetFilter();
+                render();
+            });
+        }
+
+        function openFolder(folderId) {
+            showLoading(() => {
+                currentPath.push(folderId);
+                resetFilter();
                 render();
             });
         }
@@ -1042,6 +1122,7 @@
             showLoading(() => {
                 currentPath = ['root'];
                 localStorage.removeItem('currentLevel');
+                resetFilter();
                 render();
             });
         }
@@ -1056,40 +1137,57 @@
             }, 600); // 600ms loading simulation
         }
 
+        function getCurrentDirectoryContents() {
+            if (currentPath.length <= 1) return [];
+            const levelKey = currentPath[1];
+            let currentDir = data[levelKey] || [];
+            
+            for (let i = 2; i < currentPath.length; i++) {
+                const folderId = currentPath[i];
+                const folder = currentDir.find(item => item.type === 'folder' && item.id === folderId);
+                if (folder && Array.isArray(folder.children)) {
+                    currentDir = folder.children;
+                } else {
+                    break;
+                }
+            }
+            return currentDir;
+        }
+
         // RENDER LOGIC
         function render() {
             renderBreadcrumbs();
 
             if (currentPath.length === 1) {
-                // Show Folders
+                // Show Root Level Folders
+                renderFolders();
                 folderView.classList.remove('hidden');
-                fileView.style.display = 'none';
-                fileView.classList.remove('animate-[fadeIn_0.3s_ease-out]');
+                fileSection.classList.add('hidden');
             } else {
-                // Show Files
                 folderView.classList.add('hidden');
-                fileView.style.display = 'block';
-                fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
-
-                const levelKey = currentPath[1];
-                let files = data[levelKey] || [];
+                
+                const contents = getCurrentDirectoryContents();
+                // Filter out hidden folders and files for students
+                const visibleContents = contents.filter(item => !item.isHidden);
+                const subfolders = visibleContents.filter(item => item.type === 'folder');
+                let files = visibleContents.filter(item => item.type !== 'folder');
 
                 // FILTERING LOGIC
-                // Chip Filter
                 if (currentFilter !== 'all') {
-                    if (currentFilter === 'exam') {
-                        files = files.filter(file => file.type === 'exam' && file.title.includes('فرض'));
-                    } else if (currentFilter === 'test') {
-                        files = files.filter(file => file.type === 'exam' && file.title.includes('اختبار'));
-                    } else if (currentFilter === 'summary') {
-                        files = files.filter(file => file.type === 'summary');
-                    }
+                    files = files.filter(file => {
+                        if (file.type === currentFilter) return true;
+                        // Fallback matching for old format
+                        if (currentFilter === 'devoir' && file.type === 'exam' && file.title.includes('فرض')) return true;
+                        if (currentFilter === 'test' && file.type === 'exam' && !file.title.includes('فرض')) return true;
+                        if (currentFilter === 'summary' && file.type === 'summary') return true;
+                        return false;
+                    });
                 }
 
-                // SORTING LOGIC: "New" items (Term 2) at the top
+                // SORTING LOGIC: "New" items (Term 2 or marked isNew) at the top
                 files.sort((a, b) => {
-                    const isANew = a.title.includes('الفصل الثاني');
-                    const isBNew = b.title.includes('الفصل الثاني');
+                    const isANew = a.isNew || a.title.includes('الفصل الثاني');
+                    const isBNew = b.isNew || b.title.includes('الفصل الثاني');
                     if (isANew && !isBNew) return -1;
                     if (!isANew && isBNew) return 1;
                     return 0;
@@ -1097,47 +1195,108 @@
 
                 fileListBody.innerHTML = '';
 
-                if (files.length === 0) {
-                    emptyState.classList.remove('hidden');
-                    emptyState.classList.add('flex');
-                    // Avoid triggering modal during search/filter if just no results
-                    if (currentFilter === 'all') {
-                        setTimeout(() => toggleModal('empty-modal', true), 300);
+                const filterWrapper = document.getElementById('filter-wrapper');
+                const listHeader = document.querySelector('.file-list-header');
+
+                const foldersToRender = currentFilter === 'all' ? subfolders : [];
+
+                if (foldersToRender.length === 0 && files.length === 0) {
+                    if (visibleContents.length === 0) {
+                        // Completely empty folder
+                        fileSection.classList.remove('hidden');
+                        fileView.style.display = 'block';
+                        fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                        if (filterWrapper) filterWrapper.classList.add('hidden');
+                        if (listHeader) listHeader.classList.add('hidden');
+                        emptyState.querySelector('p').innerText = 'لا توجد ملفات في هذا المجلد حالياً';
+                        emptyState.classList.remove('hidden');
+                        emptyState.classList.add('flex');
+                        if (currentFilter === 'all') {
+                            setTimeout(() => toggleModal('empty-modal', true), 300);
+                        }
+                    } else {
+                        // Directory has contents, but filter yielded no results, or it's subfolder-only
+                        fileSection.classList.remove('hidden');
+                        fileView.style.display = 'block';
+                        fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                        if (filterWrapper) filterWrapper.classList.remove('hidden');
+                        if (listHeader) listHeader.classList.add('hidden');
+                        emptyState.querySelector('p').innerText = 'لا توجد ملفات تطابق هذا التصنيف';
+                        emptyState.classList.remove('hidden');
+                        emptyState.classList.add('flex');
                     }
                 } else {
+                    fileSection.classList.remove('hidden');
+                    fileView.style.display = 'block';
+                    fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                    if (filterWrapper) filterWrapper.classList.remove('hidden');
+                    if (listHeader) listHeader.classList.remove('hidden');
                     emptyState.classList.add('hidden');
                     emptyState.classList.remove('flex');
 
+                    // 1. Render Folders (sorted first)
+                    foldersToRender.forEach(sub => {
+                        const fileCount = countVisibleFilesRecursive(sub.children);
+                        const row = document.createElement('div');
+                        row.className = 'file-row cursor-pointer hover:bg-[var(--color-surface-dim)]';
+                        row.onclick = () => openFolder(sub.id);
+                        row.innerHTML = `
+                            <div class="flex items-center justify-center">
+                                <span class="material-symbols-rounded text-amber-500 text-2xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-sm text-[var(--color-text-main)] flex items-center">
+                                    ${sub.title}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50 mr-2">مجلد فرعي</span>
+                                </span>
+                                <div class="flex items-center gap-3 mt-1 text-[var(--color-text-sub)]">
+                                    <span class="text-[10px]">${fileCount} ملف${fileCount !== 1 ? 'ات' : ''}</span>
+                                </div>
+                            </div>
+                            <div class="hidden md:block text-sm text-[var(--color-text-sub)]">
+                                -
+                            </div>
+                            <div class="file-actions">
+                                <button onclick="event.stopPropagation(); openFolder('${sub.id}')" 
+                                   class="btn-action btn-secondary flex-1 md:flex-none">
+                                   <span class="material-symbols-rounded text-[18px]">folder_open</span>
+                                   <span class="md:hidden lg:inline">فتح المجلد</span>
+                                </button>
+                            </div>
+                        `;
+                        fileListBody.appendChild(row);
+                    });
+
+                    // 2. Render Files
                     files.forEach(file => {
                         const row = document.createElement('div');
                         row.className = 'file-row';
 
-                        // Check for 'New' file to add glow
-                        if (file.title.includes('الفصل الثاني')) {
+                        if (file.isNew || file.title.includes('الفصل الثاني')) {
                             row.classList.add('glowing-border');
                         }
 
-                        // Icon Logic
                         let iconName = 'picture_as_pdf';
 
                         // Tag Logic
                         let tagHTML = '';
-                        if (file.title.includes('فرض')) {
+                        const typeVal = file.type || '';
+                        if (typeVal === 'devoir' || (typeVal === 'exam' && file.title.includes('فرض'))) {
                             tagHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 border border-amber-200 mr-2">فرض</span>`;
-                        } else if (file.title.includes('اختبار')) {
+                        } else if (typeVal === 'test' || (typeVal === 'exam' && !file.title.includes('فرض'))) {
                             tagHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-rose-100 text-rose-800 border border-rose-200 mr-2">اختبار</span>`;
+                        } else if (typeVal === 'lesson') {
+                            tagHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800 border border-emerald-200 mr-2">درس</span>`;
+                        } else if (typeVal === 'summary') {
+                            tagHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-indigo-100 text-indigo-800 border border-indigo-200 mr-2">ملخص</span>`;
                         }
 
-                        // Add "New" tag if Term 2
-                        if (file.title.includes('الفصل الثاني')) {
+                        if (file.isNew || file.title.includes('الفصل الثاني')) {
                             tagHTML += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800 border border-emerald-200 mr-2 animate-pulse">جديد</span>`;
                         }
 
-                        // Format Date
                         const dateObj = new Date(file.date);
                         const dateStr = dateObj.toLocaleDateString('ar-DZ', { year: 'numeric', month: 'short', day: 'numeric' });
-
-                        // Mock Download Count
                         const downloadCount = Math.floor(Math.random() * (500 - 50 + 1)) + 50;
 
                         row.innerHTML = `
@@ -1166,7 +1325,7 @@
                                    <span class="material-symbols-rounded text-[18px]">visibility</span>
                                    <span class="md:hidden lg:inline">الموضوع</span>
                                 </a>
-                                ${file.solution ? `
+                                ${file.solution && file.solution !== '#' ? `
                                 <a href="${file.solution}" onclick="handleLink(event, '${file.solution}')" 
                                    class="btn-action btn-primary flex-1 md:flex-none">
                                    <span class="material-symbols-rounded text-[18px]">check_circle</span>
@@ -1191,21 +1350,47 @@
             homeBtn.onclick = goHome;
             breadcrumbs.appendChild(homeBtn);
 
-            // Levels
+            // Levels and nested subfolders
             if (currentPath.length > 1) {
-                // Divider
-                const div = document.createElement('span');
-                div.className = 'breadcrumb-divider material-symbols-rounded';
-                div.innerText = 'chevron_left';
-                breadcrumbs.appendChild(div);
+                let currentDir = data;
+                for (let i = 1; i < currentPath.length; i++) {
+                    // Divider
+                    const div = document.createElement('span');
+                    div.className = 'breadcrumb-divider material-symbols-rounded';
+                    div.innerText = 'chevron_left';
+                    breadcrumbs.appendChild(div);
 
-                const levelKey = currentPath[1];
-                const item = document.createElement('div');
-                item.className = 'breadcrumb-item active';
+                    const pathSegment = currentPath[i];
+                    const item = document.createElement('div');
+                    const isLast = i === currentPath.length - 1;
+                    item.className = `breadcrumb-item ${isLast ? 'active' : ''}`;
 
-                // Add icon based on level
-                item.innerHTML = `<span class="material-symbols-rounded text-[20px]">school</span> ${levelNames[levelKey]}`;
-                breadcrumbs.appendChild(item);
+                    if (i === 1) {
+                        // It's the level (e.g. 2am)
+                        item.innerHTML = `<span class="material-symbols-rounded text-[20px]">school</span> ${levelNames[pathSegment] || pathSegment}`;
+                        item.onclick = () => {
+                            currentPath = currentPath.slice(0, 2);
+                            localStorage.setItem('currentLevel', pathSegment);
+                            resetFilter();
+                            render();
+                        };
+                        currentDir = data[pathSegment] || [];
+                    } else {
+                        // It's a subfolder
+                        const folder = currentDir.find(item => item.type === 'folder' && item.id === pathSegment);
+                        item.innerHTML = `<span class="material-symbols-rounded text-[20px]">folder</span> ${folder ? folder.title : '...'}`;
+                        const targetIndex = i;
+                        item.onclick = () => {
+                            currentPath = currentPath.slice(0, targetIndex + 1);
+                            resetFilter();
+                            render();
+                        };
+                        if (folder && Array.isArray(folder.children)) {
+                            currentDir = folder.children;
+                        }
+                    }
+                    breadcrumbs.appendChild(item);
+                }
             }
         }
 
