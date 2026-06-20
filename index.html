@@ -1256,10 +1256,10 @@
                     });
                 }
 
-                // SORTING LOGIC: "New" items (manually flagged or Term 2 title) at the top
+                // SORTING LOGIC: "New" items (manually flagged) at the top
                 files.sort((a, b) => {
-                    const isANew = a.isNew || a.title.includes('الفصل الثاني');
-                    const isBNew = b.isNew || b.title.includes('الفصل الثاني');
+                    const isANew = !!a.isNew;
+                    const isBNew = !!b.isNew;
                     if (isANew && !isBNew) return -1;
                     if (!isANew && isBNew) return 1;
                     return 0;
@@ -1344,7 +1344,7 @@
                         const row = document.createElement('div');
                         row.className = 'file-row';
 
-                        if (file.isNew || file.title.includes('الفصل الثاني')) {
+                        if (file.isNew) {
                             row.classList.add('glowing-border');
                         }
 
@@ -1363,7 +1363,7 @@
                             tagHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-indigo-100 text-indigo-800 border border-indigo-200 mr-2">ملخص</span>`;
                         }
 
-                        if (file.isNew || file.title.includes('الفصل الثاني')) {
+                        if (file.isNew) {
                             tagHTML += `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-100 text-emerald-800 border border-emerald-200 mr-2 animate-pulse">جديد</span>`;
                         }
 
