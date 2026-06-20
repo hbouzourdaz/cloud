@@ -426,6 +426,17 @@
             }
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -824,28 +835,94 @@
         const JSONBIN_BIN_ID = ''; // Paste your public JSONBin Bin ID here
         const JSONBIN_ACCESS_KEY = ''; // Optional Access Key (if private bin)
 
-        // DATA STORE
+        // DATA STORE (static fallback — overwritten by JSONBin on load)
         let data = {
+            '1am': [
+                { id: 1001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 10011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 1002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 10021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 1003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 10031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
+            ],
             '2am': [
-                { id: 1, title: 'فرض الفصل الأول - فيزياء', date: '2025-11-07', type: 'exam', assignment: 'devoir_01_2am_physics.pdf', solution: 'sol_devoir_01_2am_physics.pdf' },
-                { id: 2, title: 'اختبار الفصل الأول - فيزياء', date: '2025-12-06', type: 'exam', assignment: 'exam_01_2am_physics.pdf', solution: 'sol_exam_01_2am_physics.pdf' },
-                { id: 3, title: 'فرض الفصل الثاني - فيزياء', date: '2026-02-11', type: 'exam', assignment: 'devoir_02_2am_physics.pdf', solution: 'sol_devoir_02_2am_physics.pdf' },
-                { id: 4, title: 'اختبار الفصل الثاني - إعلام آلي', date: '2026-03-03', type: 'exam', assignment: 'exam_info2.pdf', solution: 'sol_exam_info2.pdf' },
-                { id: 9, title: 'اختبار الفصل الثاني - فيزياء', date: '2026-03-11', type: 'exam', assignment: '2am_2t.pdf', solution: '2am_2t_s.pdf' }
-
+                { id: 2001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 20011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 2002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 20021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 2003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 20031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
+            ],
+            '3am': [
+                { id: 3001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 30011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 3002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 30021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 3003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 30031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
             ],
             '4am': [
-                { id: 5, title: 'فرض الفصل الأول - فيزياء', date: '2025-11-07', type: 'exam', assignment: 'devoir_01_4am_physics.pdf', solution: 'sol_devoir_01_4am_physics.pdf' },
-                { id: 6, title: 'اختبار الفصل الأول - فيزياء', date: '2025-12-06', type: 'exam', assignment: 'exam_01_4am_physics.pdf', solution: 'sol_exam_01_4am_physics.pdf' },
-                { id: 7, title: 'فرض الفصل الثاني - فيزياء', date: '2026-02-11', type: 'exam', assignment: 'devoir_02_4am_physics.pdf', solution: 'sol_devoir_02_4am_physics.pdf' },
-                { id: 8, title: 'اختبار الفصل الثاني - إعلام آلي', date: '2026-03-03', type: 'exam', assignment: 'exam_info4.pdf', solution: 'sol_exam_info4.pdf' },
-                { id: 10, title: 'اختبار الفصل الثاني - فيزياء', date: '2026-03-11', type: 'exam', assignment: '4am_2t.pdf', solution: '4am_2t_s.pdf' }
-
+                { id: 4001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 40011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 4002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 40021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 4003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 40031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
             ]
         };
 
         let levelNames = {
+            '1am': 'السنة 1 متوسط',
             '2am': 'السنة 2 متوسط',
+            '3am': 'السنة 3 متوسط',
             '4am': 'السنة 4 متوسط'
         };
 
@@ -917,30 +994,6 @@
 
         // Dynamic Data Fetching
         async function fetchDynamicData() {
-            // Check for mock data in localStorage first (Mock Mode support)
-            const savedMock = localStorage.getItem('mock_db');
-            if (savedMock) {
-                try {
-                    const parsed = JSON.parse(savedMock);
-                    if (parsed._levelNames && typeof parsed._levelNames === 'object') {
-                        Object.assign(levelNames, parsed._levelNames);
-                        delete parsed._levelNames;
-                    }
-                    data = parsed;
-                    // Auto-generate levelNames for any keys not already named
-                    Object.keys(data).forEach(key => {
-                        if (key.startsWith('_')) return;
-                        if (!levelNames[key]) {
-                            levelNames[key] = key.toUpperCase();
-                        }
-                    });
-                    console.log('Successfully loaded mock data from localStorage:', Object.keys(data));
-                    return;
-                } catch(e) {
-                    console.error('Failed to parse mock_db from localStorage', e);
-                }
-            }
-
             const activeBinId = localStorage.getItem('jsonbin_bin_id') || localStorage.getItem('saved_bin_id') || JSONBIN_BIN_ID;
             if (!activeBinId) {
                 console.log('No JSONBin Bin ID configured. Using local static fallback data.');
@@ -1002,12 +1055,12 @@
             return rawKeys;
         }
 
-        // VISIBLE FILES COUNT HELPER
+        // RECURSIVE VISIBLE FILES COUNTER
         function countVisibleFilesRecursive(list) {
             if (!Array.isArray(list)) return 0;
             let fileCount = 0;
             list.forEach(item => {
-                if (item.isHidden) return;
+                if (item.isHidden) return; // skip hidden items
                 if (item.type === 'folder') {
                     fileCount += countVisibleFilesRecursive(item.children);
                 } else {
@@ -1027,9 +1080,9 @@
 
             const levelKeys = getSortedLevelKeys();
             levelKeys.forEach(key => {
-                const files = data[key] || [];
+                const list = data[key] || [];
                 const name = levelNames[key] || key.toUpperCase();
-                const fileCount = countVisibleFilesRecursive(files);
+                const fileCount = countVisibleFilesRecursive(list);
                 const icon = folderIcons[iconIndex % folderIcons.length];
                 iconIndex++;
 
@@ -1101,40 +1154,35 @@
             });
         }
 
+        function triggerAnimation(element) {
+            if (!element) return;
+            element.classList.remove('animate-[fadeIn_0.5s_ease-out]', 'animate-[fadeIn_0.3s_ease-out]');
+            void element.offsetHeight; // Trigger reflow
+            element.classList.add(element.id === 'folder-view' ? 'animate-[fadeIn_0.5s_ease-out]' : 'animate-[fadeIn_0.3s_ease-out]');
+        }
+
         function openLevel(levelKey) {
-            showLoading(() => {
-                currentPath = ['root', levelKey];
-                localStorage.setItem('currentLevel', levelKey);
-                resetFilter();
-                render();
-            });
+            currentPath = ['root', levelKey];
+            localStorage.setItem('currentLevel', levelKey);
+            resetFilter();
+            render();
         }
 
         function openFolder(folderId) {
-            showLoading(() => {
-                currentPath.push(folderId);
-                resetFilter();
-                render();
-            });
+            currentPath.push(folderId);
+            resetFilter();
+            render();
         }
 
         function goHome() {
-            showLoading(() => {
-                currentPath = ['root'];
-                localStorage.removeItem('currentLevel');
-                resetFilter();
-                render();
-            });
+            currentPath = ['root'];
+            localStorage.removeItem('currentLevel');
+            resetFilter();
+            render();
         }
 
         function showLoading(callback) {
-            const loader = document.getElementById('loading-modal');
-            loader.classList.add('modal-open');
-
-            setTimeout(() => {
-                loader.classList.remove('modal-open');
-                if (callback) callback();
-            }, 600); // 600ms loading simulation
+            if (callback) callback();
         }
 
         function getCurrentDirectoryContents() {
@@ -1163,14 +1211,13 @@
                 renderFolders();
                 folderView.classList.remove('hidden');
                 fileSection.classList.add('hidden');
+                triggerAnimation(folderView);
             } else {
                 folderView.classList.add('hidden');
                 
-                const contents = getCurrentDirectoryContents();
-                // Filter out hidden folders and files for students
-                const visibleContents = contents.filter(item => !item.isHidden);
-                const subfolders = visibleContents.filter(item => item.type === 'folder');
-                let files = visibleContents.filter(item => item.type !== 'folder');
+                const contents = getCurrentDirectoryContents().filter(item => !item.isHidden);
+                const subfolders = contents.filter(item => item.type === 'folder');
+                let files = contents.filter(item => item.type !== 'folder');
 
                 // FILTERING LOGIC
                 if (currentFilter !== 'all') {
@@ -1184,7 +1231,7 @@
                     });
                 }
 
-                // SORTING LOGIC: "New" items (Term 2 or marked isNew) at the top
+                // SORTING LOGIC: "New" items (manually flagged or Term 2 title) at the top
                 files.sort((a, b) => {
                     const isANew = a.isNew || a.title.includes('الفصل الثاني');
                     const isBNew = b.isNew || b.title.includes('الفصل الثاني');
@@ -1201,11 +1248,11 @@
                 const foldersToRender = currentFilter === 'all' ? subfolders : [];
 
                 if (foldersToRender.length === 0 && files.length === 0) {
-                    if (visibleContents.length === 0) {
+                    if (contents.length === 0) {
                         // Completely empty folder
                         fileSection.classList.remove('hidden');
                         fileView.style.display = 'block';
-                        fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                        triggerAnimation(fileView);
                         if (filterWrapper) filterWrapper.classList.add('hidden');
                         if (listHeader) listHeader.classList.add('hidden');
                         emptyState.querySelector('p').innerText = 'لا توجد ملفات في هذا المجلد حالياً';
@@ -1218,7 +1265,7 @@
                         // Directory has contents, but filter yielded no results, or it's subfolder-only
                         fileSection.classList.remove('hidden');
                         fileView.style.display = 'block';
-                        fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                        triggerAnimation(fileView);
                         if (filterWrapper) filterWrapper.classList.remove('hidden');
                         if (listHeader) listHeader.classList.add('hidden');
                         emptyState.querySelector('p').innerText = 'لا توجد ملفات تطابق هذا التصنيف';
@@ -1228,7 +1275,7 @@
                 } else {
                     fileSection.classList.remove('hidden');
                     fileView.style.display = 'block';
-                    fileView.classList.add('animate-[fadeIn_0.3s_ease-out]');
+                    triggerAnimation(fileView);
                     if (filterWrapper) filterWrapper.classList.remove('hidden');
                     if (listHeader) listHeader.classList.remove('hidden');
                     emptyState.classList.add('hidden');
@@ -1236,7 +1283,7 @@
 
                     // 1. Render Folders (sorted first)
                     foldersToRender.forEach(sub => {
-                        const fileCount = countVisibleFilesRecursive(sub.children);
+                        const fileCount = Array.isArray(sub.children) ? sub.children.length : 0;
                         const row = document.createElement('div');
                         row.className = 'file-row cursor-pointer hover:bg-[var(--color-surface-dim)]';
                         row.onclick = () => openFolder(sub.id);

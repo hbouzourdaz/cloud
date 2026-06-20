@@ -388,12 +388,6 @@
                             <!-- Injected via JS -->
                         </div>
                         <div class="flex gap-2">
-                            <button id="move-level-right-btn" onclick="moveLevel(-1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليمين">
-                                <span class="material-symbols-rounded text-sm">chevron_right</span>
-                            </button>
-                            <button id="move-level-left-btn" onclick="moveLevel(1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليسار">
-                                <span class="material-symbols-rounded text-sm">chevron_left</span>
-                            </button>
                             <button onclick="openLevelModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-1.5 transition-colors">
                                 <span class="material-symbols-rounded text-sm">add_box</span>
                                 مستوى جديد
@@ -405,6 +399,12 @@
                             <button onclick="deleteCurrentLevel()" class="border border-red-200 hover:bg-red-50 dark:hover:bg-red-950/20 text-red-600 text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-1.5 transition-colors">
                                 <span class="material-symbols-rounded text-sm">delete</span>
                                 حذف القسم
+                            </button>
+                            <button id="move-level-right-btn" onclick="moveLevel(-1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليمين">
+                                <span class="material-symbols-rounded text-sm">chevron_right</span>
+                            </button>
+                            <button id="move-level-left-btn" onclick="moveLevel(1)" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2 px-2.5 rounded-lg flex items-center gap-1 transition-colors" title="نقل القسم لليسار">
+                                <span class="material-symbols-rounded text-sm">chevron_left</span>
                             </button>
                         </div>
                     </div>
@@ -430,35 +430,39 @@
                     </div>
 
                     <!-- Bulk Actions Toolbar -->
-                    <div id="bulk-actions-bar" class="hidden items-center justify-between p-3 mb-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 rounded-xl transition-all flex-wrap gap-3">
-                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300">
-                            <span class="material-symbols-rounded">check_box</span>
-                            <span>تم تحديد <span id="selected-count">0</span> عناصر</span>
+                    <div id="bulk-actions-bar" class="hidden flex-wrap items-center justify-between gap-3 p-3 mb-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/50 rounded-xl animate-[fadeIn_0.2s_ease-out]">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-rounded text-emerald-600">done_all</span>
+                            <span class="text-xs font-bold text-emerald-800 dark:text-emerald-300" id="selected-count-text">تم تحديد 0 عناصر</span>
                         </div>
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <button onclick="bulkSetNew(true)" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
-                                <span class="material-symbols-rounded text-sm">auto_awesome</span>
-                                وضع جديد للكل
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="bulkSetNew(true, 'selected')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-rounded text-sm">workspace_premium</span>
+                                تعيين جديد للمحدد
                             </button>
-                            <button onclick="bulkSetNew(false)" class="border border-emerald-600/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
-                                <span class="material-symbols-rounded text-sm">close</span>
+                            <button onclick="bulkSetNew(false, 'selected')" class="border border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-rounded text-sm">bookmark_remove</span>
+                                إزالة جديد للمحدد
+                            </button>
+                            <button onclick="bulkSetNew(true, 'all')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-rounded text-sm">star</span>
+                                تعيين جديد للكل
+                            </button>
+                            <button onclick="bulkSetNew(false, 'all')" class="border border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-rounded text-sm">tab_unselected</span>
                                 إزالة جديد للكل
                             </button>
-                            <button onclick="bulkSetHidden(true)" class="bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                            <button onclick="bulkSetVisibility(false)" class="bg-gray-600 hover:bg-gray-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
                                 <span class="material-symbols-rounded text-sm">visibility_off</span>
-                                إخفاء للكل
+                                إخفاء المحدد
                             </button>
-                            <button onclick="bulkSetHidden(false)" class="border border-amber-600/50 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                            <button onclick="bulkSetVisibility(true)" class="border border-gray-600 text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-950/20 text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
                                 <span class="material-symbols-rounded text-sm">visibility</span>
-                                إظهار للكل
+                                إظهار المحدد
                             </button>
-                            <button onclick="openBulkMoveModal()" class="bg-cyan-800 hover:bg-cyan-900 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                            <button onclick="openMoveModal()" class="bg-cyan-800 hover:bg-cyan-950 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
                                 <span class="material-symbols-rounded text-sm">drive_file_move</span>
-                                نقل لمجلد آخر
-                            </button>
-                            <button onclick="bulkDelete()" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
-                                <span class="material-symbols-rounded text-sm">delete</span>
-                                حذف المحدد
+                                نقل المحدد
                             </button>
                         </div>
                     </div>
@@ -469,7 +473,7 @@
                             <thead class="bg-[var(--color-surface)] border-b border-[var(--color-surface-border)] text-[var(--color-text-sub)] font-bold text-[11px]">
                                 <tr>
                                     <th scope="col" class="px-4 py-3 text-center w-10">
-                                        <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this)" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
+                                        <input type="checkbox" id="select-all-items" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4 cursor-pointer" onclick="toggleSelectAll(this)">
                                     </th>
                                     <th scope="col" class="px-4 py-3 text-center w-12">ترتيب</th>
                                     <th scope="col" class="px-6 py-3">عنوان الموضوع</th>
@@ -531,15 +535,24 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-2 py-1">
+                <div class="flex items-center gap-4 py-1">
                     <div class="flex items-center gap-2">
                         <input type="checkbox" id="file-is-new-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
-                        <label for="file-is-new-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">تعليم كملف جديد (سيظهر شريط متوهج ووسم جديد للطلاب)</label>
+                        <label for="file-is-new-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">تعليم كملف جديد</label>
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="checkbox" id="file-is-hidden-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
-                        <label for="file-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">إخفاء هذا الملف عن الطلاب (لن يظهر في الصفحة الرئيسية)</label>
+                        <label for="file-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold text-red-600 dark:text-red-400">إخفاء الملف عن الطلاب</label>
                     </div>
+                </div>
+
+                <!-- Target Folder Selector (visible only when adding a new file) -->
+                <div id="file-target-folder-wrapper">
+                    <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">حفظ الملف في المجلد:</label>
+                    <select id="file-target-folder-select" class="w-full text-xs p-3 custom-input bg-[var(--color-surface-dim)]">
+                        <!-- Populated dynamically -->
+                    </select>
+                    <p class="text-[10px] text-[var(--color-text-sub)] mt-1">اختر المجلد الذي ستضيف الموضوع إليه. تركه على "المجلد الحالي" يضيفه في مكانك الحالي.</p>
                 </div>
 
                 <!-- Assignment Input with drive parser & github uploader -->
@@ -601,7 +614,7 @@
                 </div>
                 <div class="flex items-center gap-2 py-1">
                     <input type="checkbox" id="folder-is-hidden-input" class="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4">
-                    <label for="folder-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold">إخفاء هذا المجلد عن الطلاب</label>
+                    <label for="folder-is-hidden-input" class="text-xs text-[var(--color-text-sub)] cursor-pointer font-bold text-red-600 dark:text-red-400">إخفاء المجلد عن الطلاب</label>
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-[var(--color-surface-border)]">
                     <button type="button" onclick="closeFolderModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2.5 px-4 rounded-xl transition-all">إلغاء</button>
@@ -642,7 +655,7 @@
         </div>
     </div>
 
-    <!-- Move Selected Items Modal -->
+    <!-- Move Items Modal -->
     <div id="move-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity backdrop-blur-sm">
         <div class="bg-[var(--color-surface)] w-[90%] max-w-sm rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-transform p-6 border border-[var(--color-surface-border)]">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--color-surface-border)] mb-4">
@@ -652,16 +665,19 @@
                 </button>
             </div>
             
-            <form onsubmit="confirmBulkMove(event)" class="space-y-4">
+            <form id="move-form" onsubmit="saveMove(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">اختر المجلد أو المستوى الوجهة:</label>
-                    <select id="move-destination-select" required class="w-full text-xs p-3 custom-input bg-[var(--color-surface-dim)]">
-                        <!-- Options injected dynamically -->
+                    <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1">اختر المجلد الهدف:</label>
+                    <select id="move-target-select" required class="w-full text-xs p-3 custom-input bg-[var(--color-surface-dim)]">
+                        <!-- Injected dynamically -->
                     </select>
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-[var(--color-surface-border)]">
                     <button type="button" onclick="closeMoveModal()" class="border border-[var(--color-surface-border)] hover:bg-[var(--color-surface-dim)] text-[var(--color-text-main)] text-xs font-bold py-2.5 px-4 rounded-xl transition-all">إلغاء</button>
-                    <button type="submit" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm">تأكيد النقل</button>
+                    <button type="submit" class="bg-[var(--color-primary)] hover:opacity-90 text-[var(--color-on-primary)] text-xs font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm flex items-center gap-1">
+                        <span class="material-symbols-rounded text-sm">drive_file_move</span>
+                        نقل الآن
+                    </button>
                 </div>
             </form>
         </div>
@@ -697,32 +713,101 @@
     <script>
         // TEMPLATE DATABASE BACKUP (for auto-creation)
         const templateData = {
+            '1am': [
+                { id: 1001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 10011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 1002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 10021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 1003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 10031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 10032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 10033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 10034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
+            ],
             '2am': [
-                { id: 1, title: 'فرض الفصل الأول - فيزياء', date: '2025-11-07', type: 'exam', assignment: 'archive/2am/فروض واختبارات/PDF/devoir_01_2am_physics.pdf', solution: 'archive/2am/فروض واختبارات/PDF/sol_devoir_01_2am_physics.pdf' },
-                { id: 2, title: 'اختبار الفصل الأول - فيزياء', date: '2025-12-06', type: 'exam', assignment: 'archive/2am/فروض واختبارات/PDF/exam_01_2am_physics.pdf', solution: 'archive/2am/فروض واختبارات/PDF/sol_exam_01_2am_physics.pdf' },
-                { id: 3, title: 'فرض الفصل الثاني - فيزياء', date: '2026-02-11', type: 'exam', assignment: 'archive/2am/فروض واختبارات/PDF/devoir_02_2am_physics.pdf', solution: 'archive/2am/فروض واختبارات/PDF/sol_devoir_02_2am_physics.pdf' },
-                { id: 4, title: 'اختبار الفصل الثاني - إعلام آلي', date: '2026-03-03', type: 'exam', assignment: 'archive/2am/فروض واختبارات/PDF/exam_info2.pdf', solution: 'archive/2am/فروض واختبارات/PDF/sol_exam_info2.pdf' },
-                { id: 9, title: 'اختبار الفصل الثاني - فيزياء', date: '2026-03-11', type: 'exam', assignment: 'archive/2am/فروض واختبارات/PDF/2am_2t.pdf', solution: 'archive/2am/فروض واختبارات/PDF/2am_2t_s.pdf' }
+                { id: 2001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 20011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 2002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 20021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 2003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 20031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 20032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 20033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 20034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
+            ],
+            '3am': [
+                { id: 3001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 30011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 3002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 30021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 3003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 30031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 30032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 30033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 30034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
             ],
             '4am': [
-                { id: 5, title: 'فرض الفصل الأول - فيزياء', date: '2025-11-07', type: 'exam', assignment: 'archive/4am/فروض واختبارات/PDF/devoir_01_4am_physics.pdf', solution: 'archive/4am/فروض واختبارات/PDF/sol_devoir_01_4am_physics.pdf' },
-                { id: 6, title: 'اختبار الفصل الأول - فيزياء', date: '2025-12-06', type: 'exam', assignment: 'archive/4am/فروض واختبارات/PDF/exam_01_4am_physics.pdf', solution: 'archive/4am/فروض واختبارات/PDF/sol_exam_01_4am_physics.pdf' },
-                { id: 7, title: 'فرض الفصل الثاني - فيزياء', date: '2026-02-11', type: 'exam', assignment: 'archive/4am/فروض واختبارات/PDF/devoir_02_4am_physics.pdf', solution: 'archive/4am/فروض واختبارات/PDF/sol_devoir_02_4am_physics.pdf' },
-                { id: 8, title: 'اختبار الفصل الثاني - إعلام آلي', date: '2026-03-03', type: 'exam', assignment: 'archive/4am/فروض واختبارات/PDF/exam_info4.pdf', solution: 'archive/4am/فروض واختبارات/PDF/sol_exam_info4.pdf' },
-                { id: 10, title: 'اختبار الفصل الثاني - فيزياء', date: '2026-03-11', type: 'exam', assignment: 'archive/4am/فروض واختبارات/PDF/4am_2t.pdf', solution: 'archive/4am/فروض واختبارات/PDF/4am_2t_s.pdf' }
+                { id: 4001, type: 'folder', name: 'الفصل الأول', children: [
+                    { id: 40011, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40012, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40013, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40014, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 4002, type: 'folder', name: 'الفصل الثاني', children: [
+                    { id: 40021, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40022, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40023, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40024, type: 'folder', name: 'الملخصات', children: [] }
+                ]},
+                { id: 4003, type: 'folder', name: 'الفصل الثالث', children: [
+                    { id: 40031, type: 'folder', name: 'الفروض', children: [] },
+                    { id: 40032, type: 'folder', name: 'الاختبارات', children: [] },
+                    { id: 40033, type: 'folder', name: 'الدروس', children: [] },
+                    { id: 40034, type: 'folder', name: 'الملخصات', children: [] }
+                ]}
             ]
         };
 
         let levelNames = {
+            '1am': 'السنة 1 متوسط',
             '2am': 'السنة 2 متوسط',
+            '3am': 'السنة 3 متوسط',
             '4am': 'السنة 4 متوسط'
         };
 
         // LOCAL STATE
         let db = { ...templateData };
-        let activeLevel = '2am';
+        let activeLevel = '1am';
         let currentFolderIdPath = []; // Track nested folder ID path from level root
         let isUnsaved = false;
+        let selectedIndexes = []; // Track indexes of selected items in current folder
 
         // IN-MEMORY DECRYPTED CREDENTIALS
         let credentials = {
@@ -867,46 +952,6 @@
         // CORE LOGIN & RETRIEVE FLOW
         async function loginAndFetch(binId, password) {
             if (!binId || !password) return;
-            
-            // Local Mock Mode for testing
-            if (binId === 'mock' || new URLSearchParams(window.location.search).has('mock')) {
-                showLoader(true, 'جاري تشغيل الوضع التجريبي المحلي...');
-                setTimeout(() => {
-                    const savedMock = localStorage.getItem('mock_db');
-                    if (savedMock) {
-                        try {
-                            const parsed = JSON.parse(savedMock);
-                            db = parsed;
-                        } catch(e) {
-                            db = { ...templateData };
-                        }
-                    } else {
-                        db = { ...templateData };
-                    }
-                    activeLevel = '2am';
-                    
-                    credentials = {
-                        jsonbinKey: 'mock',
-                        jsonbinId: 'mock',
-                        gdriveKey: '',
-                        gdriveFolder: '',
-                        githubToken: '',
-                        githubRepo: '',
-                        githubBranch: 'main'
-                    };
-                    adminPassword = password;
-
-                    document.getElementById('active-bin-display').innerText = 'وضع تجريبي محلي';
-                    document.getElementById('login-screen').classList.add('hidden');
-                    document.getElementById('dashboard-screen').classList.remove('hidden');
-                    isUnsaved = false;
-                    updateSyncStatus(true, 'متصل (وضع تجريبي محلي)');
-                    renderAll();
-                    showLoader(false);
-                }, 500);
-                return;
-            }
-
             showLoader(true, 'جاري التحقق من كلمة المرور وجلب البيانات من السحابة...');
             
             try {
@@ -971,7 +1016,7 @@
                     }
                 });
                 
-                activeLevel = levelKeys[0] || '2am';
+                activeLevel = levelKeys[0] || '1am';
 
                 document.getElementById('active-bin-display').innerText = binId;
                 document.getElementById('guide-bin-id').innerText = binId;
@@ -1087,23 +1132,6 @@
 
         // PUBLISH TO CLOUD (PUT request)
         async function publishData() {
-            // Local Mock Mode publish
-            if (credentials.jsonbinId === 'mock' || new URLSearchParams(window.location.search).has('mock')) {
-                showLoader(true, 'جاري حفظ التعديلات في الذاكرة المحلية (Mock)...');
-                setTimeout(() => {
-                    localStorage.setItem('mock_db', JSON.stringify({
-                        ...db,
-                        _levelNames: { ...levelNames }
-                    }));
-                    alert('تم حفظ التعديلات محلياً بنجاح في الذاكرة (Mock Mode).');
-                    isUnsaved = false;
-                    updateSyncStatus(true, 'متصل (وضع تجريبي محلي)');
-                    renderAll();
-                    showLoader(false);
-                }, 400);
-                return;
-            }
-
             if (!credentials.jsonbinKey || !credentials.jsonbinId || !adminPassword) {
                 alert('عذراً، بيانات المزامنة ناقصة. يرجى إعادة تسجيل الدخول.');
                 return;
@@ -1298,6 +1326,7 @@
         function selectLevel(level) {
             activeLevel = level;
             currentFolderIdPath = []; // reset path
+            selectedIndexes = [];
             renderAll();
         }
 
@@ -1314,13 +1343,49 @@
             return currentDir;
         }
 
+        // Returns flat list of all sub-folders [{id, path}] from a tree
+        function getMoveTargets(tree, parentPathParts) {
+            const results = [];
+            if (!Array.isArray(tree)) return results;
+            tree.forEach(item => {
+                if (item.type === 'folder') {
+                    const currentPath = [...parentPathParts, item.name].join(' › ');
+                    results.push({ id: item.id, path: currentPath });
+                    if (Array.isArray(item.children)) {
+                        results.push(...getMoveTargets(item.children, [...parentPathParts, item.name]));
+                    }
+                }
+            });
+            return results;
+        }
+
+        // Returns the children array of a folder with the given id (deep search)
+        function findFolderChildrenById(tree, folderId) {
+            if (!Array.isArray(tree)) return null;
+            for (const item of tree) {
+                if (item.type === 'folder') {
+                    if (String(item.id) === String(folderId)) {
+                        if (!Array.isArray(item.children)) item.children = [];
+                        return item.children;
+                    }
+                    if (Array.isArray(item.children)) {
+                        const found = findFolderChildrenById(item.children, folderId);
+                        if (found) return found;
+                    }
+                }
+            }
+            return null;
+        }
+
         function enterFolder(folderId) {
             currentFolderIdPath.push(folderId);
+            selectedIndexes = [];
             renderAll();
         }
 
         function exitFolder(index) {
             currentFolderIdPath = currentFolderIdPath.slice(0, index);
+            selectedIndexes = [];
             renderAll();
         }
 
@@ -1395,21 +1460,22 @@
             e.preventDefault();
             const indexVal = document.getElementById('folder-edit-index').value;
             const name = document.getElementById('folder-name-input').value.trim();
+            const isHidden = document.getElementById('folder-is-hidden-input').checked;
             const currentDir = getCurrentDirectoryContents();
             
             if (indexVal !== '') {
                 // Edit
                 const idx = parseInt(indexVal);
                 currentDir[idx].title = name;
-                currentDir[idx].isHidden = document.getElementById('folder-is-hidden-input').checked;
+                currentDir[idx].isHidden = isHidden;
             } else {
                 // Add new folder
                 const newFolder = {
                     id: 'fold_' + Date.now(),
                     type: 'folder',
                     title: name,
-                    children: [],
-                    isHidden: document.getElementById('folder-is-hidden-input').checked
+                    isHidden: isHidden,
+                    children: []
                 };
                 currentDir.push(newFolder);
             }
@@ -1461,15 +1527,16 @@
             document.getElementById('current-level-title').innerText = levelNames[activeLevel] || activeLevel;
             tbody.innerHTML = '';
 
-            // Reset Selection State on table redraw
-            selectedIndexes = [];
-            const master = document.getElementById('select-all-checkbox');
-            if (master) master.checked = false;
-            updateBulkActionsBar();
+            // Update master checkbox check state
+            const masterCheckbox = document.getElementById('select-all-items');
+            if (masterCheckbox) {
+                masterCheckbox.checked = files.length > 0 && selectedIndexes.length === files.length;
+            }
 
             if (files.length === 0) {
                 emptyState.classList.remove('hidden');
                 emptyState.classList.add('flex');
+                updateBulkActionsBar();
                 return;
             }
 
@@ -1478,32 +1545,18 @@
 
             files.forEach((file, index) => {
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)]' + (file.isHidden ? ' opacity-65 bg-gray-50/40 dark:bg-gray-900/10' : '');
-                
+                const isSelected = selectedIndexes.includes(index);
+                const opacityClass = file.isHidden ? 'opacity-60 bg-gray-50/50 dark:bg-gray-900/10' : '';
+                const hiddenBadge = file.isHidden 
+                    ? `<span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 mr-1.5 font-sans">مخفي</span>`
+                    : '';
+
                 if (file.type === 'folder') {
                     // Render Folder Row
-                    let folderTitleHTML = `
-                        <button onclick="enterFolder('${file.id}')" class="flex items-center gap-2 text-cyan-800 dark:text-cyan-300 font-bold hover:underline">
-                            <span class="material-symbols-rounded text-amber-500">folder</span>
-                            ${file.title}
-                        </button>
-                    `;
-                    if (file.isHidden) {
-                        folderTitleHTML = `
-                            <div class="flex items-center gap-2">
-                                <button onclick="enterFolder('${file.id}')" class="flex items-center gap-2 text-cyan-800 dark:text-cyan-300 font-bold hover:underline opacity-65">
-                                    <span class="material-symbols-rounded text-amber-500/60">folder</span>
-                                    ${file.title}
-                                </button>
-                                <span class="material-symbols-rounded text-sm text-amber-500">visibility_off</span>
-                                <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">مخفي</span>
-                            </div>
-                        `;
-                    }
-
+                    row.className = `hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)] ${opacityClass}`;
                     row.innerHTML = `
                         <td class="px-4 py-3 text-center">
-                            <input type="checkbox" class="row-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4" data-index="${index}" onchange="toggleRowSelect(${index}, this.checked)">
+                            <input type="checkbox" class="item-select-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4 cursor-pointer" data-index="${index}" ${isSelected ? 'checked' : ''} onclick="onItemSelect(event)">
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex flex-col gap-1 items-center justify-center">
@@ -1516,20 +1569,29 @@
                             </div>
                         </td>
                         <td class="px-6 py-3 font-bold text-[var(--color-text-main)]">
-                            ${folderTitleHTML}
+                            <div class="flex items-center gap-2">
+                                <button onclick="enterFolder('${file.id}')" class="flex items-center gap-2 text-cyan-800 dark:text-cyan-300 font-bold hover:underline">
+                                    <span class="material-symbols-rounded text-amber-500">folder</span>
+                                    ${file.title}
+                                </button>
+                                ${hiddenBadge}
+                            </div>
                         </td>
                         <td class="px-4 py-3 text-center text-[var(--color-text-sub)]">-</td>
                         <td class="px-4 py-3 text-center">
-                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-100/50 border border-amber-200/50 text-amber-800 dark:text-amber-300">مجلد</span>
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-100/50 border border-amber-200/50 text-amber-800 dark:text-amber-300 font-sans">مجلد</span>
                         </td>
                         <td class="px-4 py-3 text-center">-</td>
                         <td class="px-4 py-3 text-center">-</td>
                         <td class="px-6 py-3 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <button onclick="openFolderModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md">
+                                <button onclick="openMoveModal(${index})" class="p-1 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-md" title="نقل المجلد">
+                                    <span class="material-symbols-rounded text-base">drive_file_move</span>
+                                </button>
+                                <button onclick="openFolderModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md" title="تعديل">
                                     <span class="material-symbols-rounded text-base">edit</span>
                                 </button>
-                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md">
+                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md" title="حذف">
                                     <span class="material-symbols-rounded text-base">delete</span>
                                 </button>
                             </div>
@@ -1570,23 +1632,16 @@
                         }
                     }
 
-                    const titleHTML = file.isNew 
-                        ? `<span class="flex items-center gap-1.5">${file.title} <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-900/50 animate-pulse">جديد</span></span>`
-                        : file.title;
+                    const newBadge = file.isNew 
+                        ? `<span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-900/50 animate-pulse font-sans">جديد</span>`
+                        : '';
 
-                    if (file.isHidden) {
-                        titleHTML = `
-                            <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-rounded text-sm text-amber-500">visibility_off</span>
-                                <span class="opacity-65">${titleHTML}</span>
-                                <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">مخفي</span>
-                            </div>
-                        `;
-                    }
+                    const titleHTML = `<span class="flex items-center gap-1.5 flex-wrap">${file.title} ${newBadge} ${hiddenBadge}</span>`;
 
+                    row.className = `hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)] ${opacityClass}`;
                     row.innerHTML = `
                         <td class="px-4 py-3 text-center">
-                            <input type="checkbox" class="row-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4" data-index="${index}" onchange="toggleRowSelect(${index}, this.checked)">
+                            <input type="checkbox" class="item-select-checkbox rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)] w-4 h-4 cursor-pointer" data-index="${index}" ${isSelected ? 'checked' : ''} onclick="onItemSelect(event)">
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex flex-col gap-1 items-center justify-center">
@@ -1605,10 +1660,13 @@
                         <td class="px-4 py-3 text-center">${solBadge}</td>
                         <td class="px-6 py-3 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <button onclick="openFileModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md">
+                                <button onclick="openMoveModal(${index})" class="p-1 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-md" title="نقل الملف">
+                                    <span class="material-symbols-rounded text-base">drive_file_move</span>
+                                </button>
+                                <button onclick="openFileModal(${index})" class="p-1 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950/20 rounded-md" title="تعديل">
                                     <span class="material-symbols-rounded text-base">edit</span>
                                 </button>
-                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md">
+                                <button onclick="deleteFile(${index})" class="p-1 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md" title="حذف">
                                     <span class="material-symbols-rounded text-base">delete</span>
                                 </button>
                             </div>
@@ -1617,6 +1675,7 @@
                 }
                 tbody.appendChild(row);
             });
+            updateBulkActionsBar();
         }
 
         // CRUD: Move Items for custom sorting
@@ -1629,20 +1688,59 @@
             currentDir[index] = currentDir[newIndex];
             currentDir[newIndex] = temp;
             
+            // Adjust selectedIndexes if they moved
+            selectedIndexes = selectedIndexes.map(idx => {
+                if (idx === index) return newIndex;
+                if (idx === newIndex) return index;
+                return idx;
+            });
+
             isUnsaved = true;
             renderAll();
         }
 
-        // Selection State
-        let selectedIndexes = [];
-
         // CRUD: File modal functions
+        function buildFolderTargetOptions() {
+            const select = document.getElementById('file-target-folder-select');
+            if (!select) return;
+            select.innerHTML = '';
+
+            // Current folder option
+            const currentOpt = document.createElement('option');
+            currentOpt.value = 'current';
+            currentOpt.innerText = '📂 المجلد الحالي (موقعك الآن)';
+            select.appendChild(currentOpt);
+
+            // All levels and their subfolders
+            const levelKeys = getSortedLevelKeys();
+            levelKeys.forEach(levelKey => {
+                const rootOpt = document.createElement('option');
+                rootOpt.value = `${levelKey}:root`;
+                rootOpt.innerText = `🗂 الرئيسية — ${levelNames[levelKey] || levelKey}`;
+                select.appendChild(rootOpt);
+
+                const levelTree = db[levelKey] || [];
+                const targets = getMoveTargets(levelTree, []);
+                targets.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = `${levelKey}:${t.id}`;
+                    opt.innerText = `📁 ${levelNames[levelKey] || levelKey} › ${t.path}`;
+                    select.appendChild(opt);
+                });
+            });
+
+            // Pre-select current location
+            select.value = 'current';
+        }
+
         function openFileModal(index) {
             const modal = document.getElementById('file-modal');
             const form = document.getElementById('file-form');
             form.reset();
 
             document.getElementById('file-date-input').value = new Date().toISOString().split('T')[0];
+
+            const targetWrapper = document.getElementById('file-target-folder-wrapper');
 
             if (index !== null) {
                 const currentDir = getCurrentDirectoryContents();
@@ -1661,11 +1759,16 @@
                 document.getElementById('file-solution-input').value = file.solution || '';
                 document.getElementById('file-is-new-input').checked = file.isNew || false;
                 document.getElementById('file-is-hidden-input').checked = file.isHidden || false;
+                // Hide folder picker when editing
+                if (targetWrapper) targetWrapper.classList.add('hidden');
             } else {
                 document.getElementById('file-modal-title').innerText = 'إضافة موضوع جديد للأرشيف';
                 document.getElementById('file-id').value = '';
                 document.getElementById('file-is-new-input').checked = false;
                 document.getElementById('file-is-hidden-input').checked = false;
+                // Show and populate folder picker for new files
+                if (targetWrapper) targetWrapper.classList.remove('hidden');
+                buildFolderTargetOptions();
             }
 
             modal.style.display = 'flex';
@@ -1700,9 +1803,34 @@
             };
 
             if (index !== '') {
+                // Editing existing file: update in-place in current dir
                 currentDir[index] = fileData;
             } else {
-                currentDir.push(fileData);
+                // Adding new file: respect chosen target folder
+                const targetVal = (document.getElementById('file-target-folder-select') || {}).value || 'current';
+
+                if (targetVal === 'current') {
+                    currentDir.push(fileData);
+                } else {
+                    const parts = targetVal.split(':');
+                    const targetLevel = parts[0];
+                    const targetFolderId = parts[1];
+                    const targetLevelTree = db[targetLevel] || [];
+
+                    let targetDir;
+                    if (targetFolderId === 'root') {
+                        targetDir = targetLevelTree;
+                    } else {
+                        targetDir = findFolderChildrenById(targetLevelTree, targetFolderId);
+                    }
+
+                    if (targetDir) {
+                        targetDir.push(fileData);
+                    } else {
+                        // Fallback to current dir if target not found
+                        currentDir.push(fileData);
+                    }
+                }
             }
 
             isUnsaved = true;
@@ -1714,51 +1842,57 @@
             if (confirm('هل أنت متأكد من رغبتك في حذف هذا العنصر نهائياً؟')) {
                 const currentDir = getCurrentDirectoryContents();
                 currentDir.splice(index, 1);
+                
+                // Clear selection index matching
+                selectedIndexes = selectedIndexes.filter(idx => idx !== index).map(idx => idx > index ? idx - 1 : idx);
+
                 isUnsaved = true;
                 renderAll();
             }
         }
 
-        // --- ROW SELECTION & BULK ACTIONS HELPERS ---
+        // Selection JS Helpers
         function toggleSelectAll(master) {
-            const checkboxes = document.querySelectorAll('.row-checkbox');
-            selectedIndexes = [];
-            checkboxes.forEach(cb => {
-                cb.checked = master.checked;
-                const idx = parseInt(cb.getAttribute('data-index'));
-                if (master.checked) {
-                    selectedIndexes.push(idx);
-                }
-            });
+            const files = getCurrentDirectoryContents();
+            if (master.checked) {
+                selectedIndexes = files.map((_, i) => i);
+            } else {
+                selectedIndexes = [];
+            }
+            renderTable();
+        }
+
+        function onItemSelect(event) {
+            event.stopPropagation();
+            const index = parseInt(event.target.getAttribute('data-index'));
+            if (event.target.checked) {
+                if (!selectedIndexes.includes(index)) selectedIndexes.push(index);
+            } else {
+                selectedIndexes = selectedIndexes.filter(i => i !== index);
+            }
+            // Update master checkbox check state dynamically
+            const files = getCurrentDirectoryContents();
+            const masterCheckbox = document.getElementById('select-all-items');
+            if (masterCheckbox) {
+                masterCheckbox.checked = selectedIndexes.length === files.length && files.length > 0;
+            }
             updateBulkActionsBar();
         }
 
-        function toggleRowSelect(idx, checked) {
-            if (checked) {
-                if (!selectedIndexes.includes(idx)) {
-                    selectedIndexes.push(idx);
-                }
-            } else {
-                selectedIndexes = selectedIndexes.filter(i => i !== idx);
-            }
-            
-            // Sync select-all checkbox
-            const checkboxes = document.querySelectorAll('.row-checkbox');
-            const master = document.getElementById('select-all-checkbox');
-            if (master) {
-                master.checked = checkboxes.length > 0 && Array.from(checkboxes).every(cb => cb.checked);
-            }
-            
+        function clearSelection() {
+            selectedIndexes = [];
+            const masterCheckbox = document.getElementById('select-all-items');
+            if (masterCheckbox) masterCheckbox.checked = false;
+            document.querySelectorAll('.item-select-checkbox').forEach(c => c.checked = false);
             updateBulkActionsBar();
         }
 
         function updateBulkActionsBar() {
             const bar = document.getElementById('bulk-actions-bar');
-            const countSpan = document.getElementById('selected-count');
-            if (!bar || !countSpan) return;
-            
+            const countText = document.getElementById('selected-count-text');
+            if (!bar) return;
             if (selectedIndexes.length > 0) {
-                countSpan.innerText = selectedIndexes.length;
+                countText.innerText = `تم تحديد ${selectedIndexes.length} عناصر`;
                 bar.classList.remove('hidden');
                 bar.classList.add('flex');
             } else {
@@ -1767,113 +1901,102 @@
             }
         }
 
-        function bulkSetNew(status) {
+        // Bulk operations
+        function bulkSetNew(isNew, scope) {
             const currentDir = getCurrentDirectoryContents();
-            let affected = 0;
-            selectedIndexes.forEach(idx => {
-                const item = currentDir[idx];
-                if (item && item.type !== 'folder') {
-                    item.isNew = status;
-                    affected++;
-                }
-            });
-            if (affected > 0) {
-                isUnsaved = true;
-                renderAll();
-                alert(`تم ${status ? 'تعيين وسم جديد لـ' : 'إزالة وسم جديد عن'} ${affected} ملفات.`);
-            } else {
-                alert('الرجاء تحديد ملفات فقط (المجلدات لا تدعم وسم جديد).');
+            if (scope === 'all') {
+                currentDir.forEach(item => {
+                    if (item.type !== 'folder') {
+                        item.isNew = isNew;
+                    }
+                });
+            } else if (scope === 'selected') {
+                selectedIndexes.forEach(idx => {
+                    const item = currentDir[idx];
+                    if (item && item.type !== 'folder') {
+                        item.isNew = isNew;
+                    }
+                });
             }
+            isUnsaved = true;
+            clearSelection();
+            renderAll();
         }
 
-        function bulkSetHidden(status) {
+        function bulkSetVisibility(visible) {
             const currentDir = getCurrentDirectoryContents();
             selectedIndexes.forEach(idx => {
                 const item = currentDir[idx];
                 if (item) {
-                    item.isHidden = status;
+                    item.isHidden = !visible;
                 }
             });
             isUnsaved = true;
-            renderAll();
-            alert(`تم ${status ? 'إخفاء' : 'إظهار'} ${selectedIndexes.length} عناصر عن الطلاب.`);
-        }
-
-        function bulkDelete() {
-            if (!confirm(`هل أنت متأكد من رغبتك في حذف ${selectedIndexes.length} عناصر محددة نهائياً؟`)) {
-                return;
-            }
-            const currentDir = getCurrentDirectoryContents();
-            const sortedIndices = [...selectedIndexes].sort((a, b) => b - a);
-            sortedIndices.forEach(idx => {
-                currentDir.splice(idx, 1);
-            });
-            isUnsaved = true;
+            clearSelection();
             renderAll();
         }
 
-        function getFolderTree() {
-            const list = [];
-            const levelKeys = getSortedLevelKeys();
-            
-            levelKeys.forEach(level => {
-                const label = levelNames[level] || level;
-                list.push({
-                    id: level,
-                    title: `${label} (الرئيسية)`,
-                    level: level,
-                    path: []
-                });
-                
-                const traverse = (items, path, depth) => {
-                    items.forEach(item => {
-                        if (item.type === 'folder') {
-                            const prefix = '  '.repeat(depth) + '└── ';
-                            const currentPath = [...path, item.id];
-                            list.push({
-                                id: item.id,
-                                title: prefix + item.title,
-                                level: level,
-                                path: currentPath
-                            });
-                            if (Array.isArray(item.children)) {
-                                traverse(item.children, currentPath, depth + 1);
-                            }
-                        }
-                    });
-                };
-                
-                const levelItems = db[level] || [];
-                traverse(levelItems, [], 1);
+        // Move operations and target listing
+        function getMoveTargets(list, selectedIds, currentPath = '') {
+            let targets = [];
+            list.forEach(item => {
+                if (item.type === 'folder') {
+                    // Skip selected folders and all of their sub-folders to prevent loops
+                    if (selectedIds.includes(item.id)) return;
+                    
+                    const fullPath = currentPath ? `${currentPath} > ${item.title}` : item.title;
+                    targets.push({ id: item.id, path: fullPath });
+                    targets = targets.concat(getMoveTargets(item.children, selectedIds, fullPath));
+                }
             });
-            return list;
+            return targets;
         }
 
-        function openBulkMoveModal() {
+        let singleMoveIndex = null;
+
+        function openMoveModal(index = null) {
             const modal = document.getElementById('move-modal');
-            const select = document.getElementById('move-destination-select');
+            const select = document.getElementById('move-target-select');
             if (!modal || !select) return;
-            
-            select.innerHTML = '';
-            
+
+            // Map selected indexes to their objects and get their IDs
             const currentDir = getCurrentDirectoryContents();
-            const selectedItems = selectedIndexes.map(idx => currentDir[idx]);
-            const selectedFolderIds = selectedItems.filter(item => item.type === 'folder').map(item => item.id);
-            
-            const tree = getFolderTree();
-            tree.forEach(dest => {
-                // Safety: Cannot move folders into themselves or their subfolders
-                const isInvalid = selectedFolderIds.some(id => dest.path.includes(id));
-                const isSelf = selectedFolderIds.some(id => dest.id === id);
-                
-                if (!isInvalid && !isSelf) {
-                    const opt = document.createElement('option');
-                    opt.value = JSON.stringify({ level: dest.level, path: dest.path });
-                    opt.innerText = dest.title;
-                    select.appendChild(opt);
+            let selectedIds = [];
+
+            if (index !== null) {
+                singleMoveIndex = index;
+                const item = currentDir[index];
+                if (item) {
+                    selectedIds = [item.id];
                 }
+            } else {
+                singleMoveIndex = null;
+                const selectedItems = selectedIndexes.map(idx => currentDir[idx]).filter(Boolean);
+                selectedIds = selectedItems.map(item => item.id);
+            }
+
+            select.innerHTML = '';
+
+            // Fetch nested targets recursively across all levels
+            const levelKeys = getSortedLevelKeys();
+            levelKeys.forEach(levelKey => {
+                // Add root (main level folder) option
+                const rootOption = document.createElement('option');
+                rootOption.value = `${levelKey}:root`;
+                rootOption.innerText = `الرئيسية (مستوى: ${levelNames[levelKey] || levelKey})`;
+                select.appendChild(rootOption);
+
+                const levelTree = db[levelKey] || [];
+                const targets = getMoveTargets(levelTree, selectedIds);
+                
+                targets.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = `${levelKey}:${t.id}`;
+                    opt.innerText = `${levelNames[levelKey] || levelKey} > ${t.path}`;
+                    select.appendChild(opt);
+                });
             });
-            
+
             modal.style.display = 'flex';
             modal.classList.remove('opacity-0', 'pointer-events-none');
             requestAnimationFrame(() => modal.classList.add('opacity-100'));
@@ -1881,6 +2004,7 @@
 
         function closeMoveModal() {
             const modal = document.getElementById('move-modal');
+            if (!modal) return;
             modal.classList.remove('opacity-100');
             modal.classList.add('opacity-0');
             setTimeout(() => {
@@ -1889,44 +2013,84 @@
             }, 250);
         }
 
-        function confirmBulkMove(e) {
-            e.preventDefault();
-            const destVal = document.getElementById('move-destination-select').value;
-            if (!destVal) return;
-            
-            const dest = JSON.parse(destVal);
-            const currentDir = getCurrentDirectoryContents();
-            const itemsToMove = [];
-            
-            const sortedIndices = [...selectedIndexes].sort((a, b) => b - a);
-            sortedIndices.forEach(idx => {
-                itemsToMove.push(currentDir[idx]);
-                currentDir.splice(idx, 1);
-            });
-            itemsToMove.reverse();
-            
-            let destDir = db[dest.level];
-            if (!destDir) {
-                db[dest.level] = [];
-                destDir = db[dest.level];
-            }
-            
-            for (const folderId of dest.path) {
-                const folder = destDir.find(item => item.type === 'folder' && item.id === folderId);
-                if (folder) {
-                    if (!Array.isArray(folder.children)) folder.children = [];
-                    destDir = folder.children;
-                } else {
-                    break;
+        function findFolderChildrenById(list, folderId) {
+            for (const item of list) {
+                if (item.type === 'folder') {
+                    if (item.id === folderId) return item.children;
+                    const sub = findFolderChildrenById(item.children, folderId);
+                    if (sub) return sub;
                 }
             }
+            return null;
+        }
+
+        function saveMove(e) {
+            e.preventDefault();
+            const targetVal = document.getElementById('move-target-select').value;
+            if (!targetVal) return;
+
+            const parts = targetVal.split(':');
+            const targetLevel = parts[0];
+            const targetId = parts[1];
+
+            const currentDir = getCurrentDirectoryContents();
             
-            destDir.push(...itemsToMove);
+            // Get selected items to move
+            let itemsToMove = [];
+            let indexesToRemove = [];
+
+            if (singleMoveIndex !== null) {
+                const item = currentDir[singleMoveIndex];
+                if (item) {
+                    itemsToMove = [item];
+                    indexesToRemove = [singleMoveIndex];
+                }
+            } else {
+                itemsToMove = selectedIndexes.map(idx => currentDir[idx]).filter(Boolean);
+                indexesToRemove = [...selectedIndexes];
+            }
+
+            if (itemsToMove.length === 0) {
+                alert('لا توجد عناصر لنقلها.');
+                return;
+            }
+
+            // Identify current folder ID
+            const currentFolderId = currentFolderIdPath.length > 0 ? currentFolderIdPath[currentFolderIdPath.length - 1] : 'root';
             
+            // Check if moving to the same folder in the same level
+            if (activeLevel === targetLevel && targetId === currentFolderId) {
+                alert('العناصر المحددة موجودة بالفعل في هذا المجلد!');
+                return;
+            }
+
+            // Get target directory reference
+            let targetDir;
+            const targetLevelTree = db[targetLevel] || [];
+            if (targetId === 'root') {
+                targetDir = targetLevelTree;
+            } else {
+                targetDir = findFolderChildrenById(targetLevelTree, targetId);
+            }
+
+            if (!targetDir) {
+                alert('خطأ: لم يتم العثور على المجلد المستهدف.');
+                return;
+            }
+
+            // Remove selected items from current directory
+            const newCurrentDir = currentDir.filter((_, idx) => !indexesToRemove.includes(idx));
+            currentDir.length = 0;
+            newCurrentDir.forEach(item => currentDir.push(item));
+
+            // Add selected items to target directory
+            itemsToMove.forEach(item => targetDir.push(item));
+
             isUnsaved = true;
             closeMoveModal();
+            clearSelection();
             renderAll();
-            alert(`تم نقل ${itemsToMove.length} عناصر بنجاح.`);
+            alert('تم نقل العناصر بنجاح!');
         }
 
         // CRUD: Level functions
