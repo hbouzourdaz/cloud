@@ -1226,9 +1226,27 @@
                 const subfolders = contents.filter(item => item.type === 'folder');
                 let files = contents.filter(item => item.type !== 'folder');
 
+                // Helper to get all files recursively
+                const getAllFilesRecursive = (list) => {
+                    let result = [];
+                    list.forEach(item => {
+                        if (item.isHidden) return;
+                        if (item.type === 'folder') {
+                            if (Array.isArray(item.children)) {
+                                result = result.concat(getAllFilesRecursive(item.children));
+                            }
+                        } else {
+                            result.push(item);
+                        }
+                    });
+                    return result;
+                };
+
                 // FILTERING LOGIC
                 if (currentFilter !== 'all') {
-                    files = files.filter(file => {
+                    // When filtering, search recursively in all subfolders so files don't disappear
+                    const allFiles = getAllFilesRecursive(getCurrentDirectoryContents());
+                    files = allFiles.filter(file => {
                         if (file.type === currentFilter) return true;
                         // Fallback matching for old format
                         if (currentFilter === 'devoir' && file.type === 'exam' && file.title.includes('فرض')) return true;
