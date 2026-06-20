@@ -124,6 +124,13 @@
             border-radius: var(--radius-md);
             border: 1px solid var(--color-surface-border);
             box-shadow: var(--shadow-sm);
+            scrollbar-width: none;          /* Firefox */
+            -ms-overflow-style: none;       /* IE / Edge */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .breadcrumbs::-webkit-scrollbar {
+            display: none;                  /* Chrome / Safari / Opera */
         }
 
         .breadcrumb-item {
@@ -1643,12 +1650,12 @@
                     
                     if (isPdf && isMobile && isPublicProd) {
                         // On mobile, native iframes only show page 1 of PDFs due to iOS Safari limits.
-                        // We use Google Docs Viewer to render the PDF completely as a scrollable HTML document.
+                        // We use Mozilla's PDF.js viewer instead of Google Docs Viewer to avoid "No preview available" errors.
                         let absolutePdfUrl = rawUrl;
                         if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
                             absolutePdfUrl = new URL(rawUrl, window.location.href).href;
                         }
-                        iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(absolutePdfUrl)}&embedded=true`;
+                        iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absolutePdfUrl)}`;
                         
                         iframe.onload = () => {
                             loader.classList.add('hidden');
@@ -1675,9 +1682,9 @@
                             activeBlobUrl = URL.createObjectURL(fileBlob);
                             iframe.src = activeBlobUrl;
                         } catch (fetchErr) {
-                            console.warn("Fetch failed, using Google GView / raw fallback", fetchErr);
+                            console.warn("Fetch failed, using PDF.js / raw fallback", fetchErr);
                             if (isPdf) {
-                                iframe.src = `https://docs.google.com/gview?url=${encodeURIComponent(rawUrl)}&embedded=true`;
+                                iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(rawUrl)}`;
                             } else {
                                 iframe.src = rawUrl;
                             }
