@@ -11,6 +11,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- CryptoJS for Client-Side Encryption -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- SheetJS for Excel Upload Parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -380,8 +382,20 @@
                     </button>
                 </div>
 
+                <!-- Navigation Tabs -->
+                <div class="flex border-b border-[var(--color-surface-border)] gap-6 mb-1">
+                    <button onclick="switchAdminTab('files')" id="admin-tab-files-btn" class="pb-3 text-sm font-bold border-b-2 border-[var(--color-primary)] text-[var(--color-primary)] flex items-center gap-2">
+                        <span class="material-symbols-rounded text-sm">folder_open</span>
+                        إدارة الملفات والأرشيف
+                    </button>
+                    <button onclick="switchAdminTab('grades')" id="admin-tab-grades-btn" class="pb-3 text-sm font-bold border-b-2 border-transparent text-[var(--color-text-sub)] hover:text-[var(--color-text-main)] flex items-center gap-2">
+                        <span class="material-symbols-rounded text-sm">assignment_turned_in</span>
+                        نقاط وعلامات الطلاب
+                    </button>
+                </div>
+
                 <!-- Content Area Card -->
-                <div class="custom-card flex-grow flex flex-col p-6 transition-colors">
+                <div id="admin-files-view" class="custom-card flex-grow flex flex-col p-6 transition-colors">
                     <!-- Tabs Row -->
                     <div class="flex flex-wrap items-center justify-between border-b border-[var(--color-surface-border)] pb-4 mb-4 gap-4">
                         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar" id="level-tabs">
@@ -493,6 +507,91 @@
                         <div id="table-empty-state" class="hidden flex-col items-center justify-center py-16 text-[var(--color-text-sub)]">
                             <span class="material-symbols-rounded text-5xl opacity-20 mb-3">folder_open</span>
                             <p class="font-semibold">لا توجد ملفات مدرجة في هذا المستوى حالياً</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Area Card: Grades -->
+                <div id="admin-grades-view" class="hidden custom-card flex-grow flex flex-col p-6 transition-colors">
+                    <div class="flex flex-wrap items-center justify-between mb-6 border-b border-[var(--color-surface-border)] pb-4 gap-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-[var(--color-text-main)]">استيراد وإدارة نقاط وعلامات الطلاب</h3>
+                            <p class="text-xs text-[var(--color-text-sub)] mt-1">ارفع ملف إكسل الخاص بحجز النقاط (النموذج الرسمي للوزارة) لعرض النتائج للطلبة.</p>
+                        </div>
+                        <button onclick="clearGradesForSelected()" class="border border-red-200 hover:bg-red-50 dark:hover:bg-red-950/20 text-red-600 text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-1.5 transition-colors">
+                            <span class="material-symbols-rounded text-sm">delete_sweep</span>
+                            مسح نقاط هذا الفصل
+                        </button>
+                    </div>
+
+                    <!-- Setup Parameters -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1.5">المستوى الدراسي المستهدف:</label>
+                            <select id="grades-level-select" onchange="renderGradesPreview()" class="w-full text-xs p-3 custom-input">
+                                <option value="1am">السنة 1 متوسط</option>
+                                <option value="2am" selected>السنة 2 متوسط</option>
+                                <option value="3am">السنة 3 متوسط</option>
+                                <option value="4am">السنة 4 متوسط</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1.5">الفصل الدراسي:</label>
+                            <select id="grades-semester-select" onchange="renderGradesPreview()" class="w-full text-xs p-3 custom-input">
+                                <option value="الفصل الأول">الفصل الأول</option>
+                                <option value="الفصل الثاني">الفصل الثاني</option>
+                                <option value="الفصل الثالث" selected>الفصل الثالث</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-[var(--color-text-main)] mb-1.5">ملف الإكسل (.xlsx):</label>
+                            <input type="file" id="grades-excel-input" accept=".xlsx, .xls" class="w-full text-xs p-2 custom-input">
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3 mb-6">
+                        <button onclick="processUploadedGrades()" class="bg-cyan-800 hover:bg-cyan-950 text-white text-xs font-bold py-2.5 px-4 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
+                            <span class="material-symbols-rounded text-sm">upload_file</span>
+                            معالجة واستخراج النقاط
+                        </button>
+                    </div>
+
+                    <!-- Processing Status Log & Summary -->
+                    <div id="grades-status-box" class="hidden bg-gray-50 dark:bg-gray-900/40 border border-[var(--color-surface-border)] rounded-xl p-4 mb-6 text-xs">
+                        <h4 class="font-bold text-[var(--color-text-main)] mb-2 flex items-center gap-1.5">
+                            <span class="material-symbols-rounded text-sm text-cyan-700">info</span>
+                            تفاصيل المعالجة والتحميل
+                        </h4>
+                        <div id="grades-status-log" class="space-y-1.5 text-[var(--color-text-sub)]">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Preview Table -->
+                    <div id="grades-preview-box" class="hidden flex-grow flex flex-col">
+                        <h4 class="font-bold text-xs text-[var(--color-text-main)] mb-3 flex items-center gap-1.5">
+                            <span class="material-symbols-rounded text-sm text-indigo-500">grid_on</span>
+                            معاينة عينة من النقاط المستوردة (أول 5 صفوف)
+                        </h4>
+                        <div class="overflow-x-auto border border-[var(--color-surface-border)] rounded-xl">
+                            <table class="w-full text-right text-xs">
+                                <thead class="bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)] text-[var(--color-text-main)] font-bold">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-right">رقم التعريف</th>
+                                        <th scope="col" class="px-4 py-3 text-right">الاسم واللقب</th>
+                                        <th scope="col" class="px-4 py-3 text-right">الفوج</th>
+                                        <th scope="col" class="px-4 py-3 text-right">المادة</th>
+                                        <th scope="col" class="px-4 py-3 text-center">التقويم</th>
+                                        <th scope="col" class="px-4 py-3 text-center">الفرض</th>
+                                        <th scope="col" class="px-4 py-3 text-center">الاختبار</th>
+                                        <th scope="col" class="px-4 py-3 text-center">التقدير</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="grades-preview-tbody" class="divide-y divide-[var(--color-surface-border)]">
+                                    <!-- Injected dynamically -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -2831,6 +2930,245 @@
             } catch (err) {
                 console.error(`Failed to move ${sourcePath} to ${targetPath}:`, err);
                 return false;
+            }
+        }
+
+        // --- STUDENT GRADES ADMINISTRATION LOGIC ---
+
+        function switchAdminTab(tab) {
+            const filesBtn = document.getElementById('admin-tab-files-btn');
+            const gradesBtn = document.getElementById('admin-tab-grades-btn');
+            const filesView = document.getElementById('admin-files-view');
+            const gradesView = document.getElementById('admin-grades-view');
+            if (tab === 'files') {
+                filesBtn.className = "pb-3 text-sm font-bold border-b-2 border-[var(--color-primary)] text-[var(--color-primary)] flex items-center gap-2";
+                gradesBtn.className = "pb-3 text-sm font-bold border-b-2 border-transparent text-[var(--color-text-sub)] hover:text-[var(--color-text-main)] flex items-center gap-2";
+                filesView.classList.remove('hidden');
+                gradesView.classList.add('hidden');
+            } else {
+                gradesBtn.className = "pb-3 text-sm font-bold border-b-2 border-[var(--color-primary)] text-[var(--color-primary)] flex items-center gap-2";
+                filesBtn.className = "pb-3 text-sm font-bold border-b-2 border-transparent text-[var(--color-text-sub)] hover:text-[var(--color-text-main)] flex items-center gap-2";
+                filesView.classList.add('hidden');
+                gradesView.classList.remove('hidden');
+                renderGradesPreview();
+            }
+        }
+
+        function processUploadedGrades() {
+            const level = document.getElementById('grades-level-select').value;
+            const semester = document.getElementById('grades-semester-select').value;
+            const fileInput = document.getElementById('grades-excel-input');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('يرجى اختيار ملف إكسل أولاً.');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            showLoader(true, 'جاري قراءة وتحليل ملف الإكسل...');
+            
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array', cellDates: true});
+                    
+                    if (!db.grades) {
+                        db.grades = {};
+                    }
+                    if (!db.grades[level]) {
+                        db.grades[level] = {};
+                    }
+                    if (!db.grades[level][semester]) {
+                        db.grades[level][semester] = [];
+                    }
+                    
+                    const currentSemesterGrades = db.grades[level][semester];
+                    let totalParsed = 0;
+                    let logHTML = '';
+                    
+                    workbook.SheetNames.forEach(sheetName => {
+                        if (sheetName.toLowerCase() === 'worksheet') return;
+                        
+                        const sheet = workbook.Sheets[sheetName];
+                        const rows = XLSX.utils.sheet_to_json(sheet, {header: 1, defval: null});
+                        
+                        if (!rows || rows.length < 5) return;
+                        
+                        // Scan rows for metadata and header
+                        let headerRowIndex = -1;
+                        let metaText = '';
+                        
+                        for (let r = 0; r < Math.min(rows.length, 15); r++) {
+                            const row = rows[r];
+                            if (!row) continue;
+                            for (let c = 0; c < row.length; c++) {
+                                const val = row[c];
+                                if (val && typeof val === 'string' && val.includes('وثيقة حجز النقاط')) {
+                                    metaText = val;
+                                }
+                            }
+                            if (row[0] && typeof row[0] === 'string' && row[0].trim().toLowerCase() === 'matricule') {
+                                headerRowIndex = r;
+                            }
+                        }
+                        
+                        if (headerRowIndex === -1) {
+                            logHTML += `<div class="text-amber-600 font-bold">⚠️ تم تخطي الورقة "${sheetName}" لعدم العثور على حقل "matricule".</div>`;
+                            return;
+                        }
+                        
+                        // Parse class and subject from metaText
+                        let subject = '';
+                        const subjectIndex = metaText.indexOf('مادة :');
+                        if (subjectIndex !== -1) {
+                            subject = metaText.substring(subjectIndex + 6).trim();
+                        }
+                        if (!subject) {
+                            subject = sheetName; // fallback
+                        }
+                        
+                        let classGroup = '';
+                        const groupIndex = metaText.indexOf('الفوج التربوي :');
+                        if (groupIndex !== -1) {
+                            let endIdx = subjectIndex !== -1 ? subjectIndex : metaText.length;
+                            classGroup = metaText.substring(groupIndex + 15, endIdx).trim();
+                            classGroup = classGroup.replace(/\s+/g, ' ');
+                        }
+                        if (!classGroup) {
+                            classGroup = 'عام'; // fallback
+                        }
+                        
+                        let sheetParsedCount = 0;
+                        
+                        // Parse students
+                        for (let r = headerRowIndex + 2; r < rows.length; r++) {
+                            const row = rows[r];
+                            if (!row || !row[0]) break; // Stop at empty matricule
+                            
+                            const matricule = String(row[0]).trim();
+                            const nom = String(row[1] || '').trim();
+                            const prenom = String(row[2] || '').trim();
+                            
+                            let date_n = row[3];
+                            if (date_n instanceof Date) {
+                                date_n = date_n.toISOString().split('T')[0];
+                            } else if (typeof date_n === 'number') {
+                                // Excel serial date number conversion
+                                const convertedDate = new Date(Math.round((date_n - 25569) * 86400 * 1000));
+                                date_n = convertedDate.toISOString().split('T')[0];
+                            } else if (date_n) {
+                                date_n = String(date_n).trim();
+                            } else {
+                                date_n = '';
+                            }
+                            
+                            const evaluation = row[4] !== null && row[4] !== undefined ? String(row[4]).trim() : '';
+                            const quiz = row[5] !== null && row[5] !== undefined ? String(row[5]).trim() : '';
+                            const exam = row[6] !== null && row[6] !== undefined ? String(row[6]).trim() : '';
+                            const obs = row[7] !== null && row[7] !== undefined ? String(row[7]).trim() : '';
+                            
+                            const record = {
+                                matricule: matricule,
+                                nom: nom,
+                                prenom: prenom,
+                                date_n: date_n,
+                                class: classGroup,
+                                subject: subject,
+                                evaluation: evaluation,
+                                quiz: quiz,
+                                exam: exam,
+                                obs: obs
+                            };
+                            
+                            // Insert or update
+                            const existingIdx = currentSemesterGrades.findIndex(g => g.matricule === matricule && g.subject === subject);
+                            if (existingIdx !== -1) {
+                                currentSemesterGrades[existingIdx] = record;
+                            } else {
+                                currentSemesterGrades.push(record);
+                            }
+                            
+                            sheetParsedCount++;
+                            totalParsed++;
+                        }
+                        
+                        logHTML += `<div class="text-emerald-700 dark:text-emerald-400 font-medium">✅ ورقة "${sheetName}": تم بنجاح استيراد ${sheetParsedCount} طالب لمادة: <span class="font-bold">${subject}</span> (${classGroup}).</div>`;
+                    });
+                    
+                    document.getElementById('grades-status-box').classList.remove('hidden');
+                    document.getElementById('grades-status-log').innerHTML = logHTML || '<div>لم يتم استيراد أي أوراق بنجاح. يرجى التأكد من هيكلية الملف.</div>';
+                    
+                    isUnsaved = true;
+                    checkUnsaved();
+                    renderGradesPreview();
+                    alert(`تم استخراج ومعالجة ${totalParsed} علامة طالب بنجاح! لا تنسَ الضغط على "نشر التغييرات الآن" لحفظها سحابياً.`);
+                } catch (err) {
+                    console.error(err);
+                    alert('خطأ أثناء قراءة ملف الإكسل: ' + err.message);
+                } finally {
+                    showLoader(false);
+                }
+            };
+            
+            reader.onerror = function() {
+                showLoader(false);
+                alert('فشل قراءة الملف.');
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        function renderGradesPreview() {
+            const level = document.getElementById('grades-level-select').value;
+            const semester = document.getElementById('grades-semester-select').value;
+            const previewBox = document.getElementById('grades-preview-box');
+            const tbody = document.getElementById('grades-preview-tbody');
+            
+            if (!db.grades || !db.grades[level] || !db.grades[level][semester] || db.grades[level][semester].length === 0) {
+                previewBox.classList.add('hidden');
+                return;
+            }
+            
+            previewBox.classList.remove('hidden');
+            tbody.innerHTML = '';
+            
+            const list = db.grades[level][semester];
+            const sample = list.slice(0, 5); // display first 5 records
+            
+            sample.forEach(g => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-[var(--color-surface-dim)] border-b border-[var(--color-surface-border)]';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-mono">${g.matricule}</td>
+                    <td class="px-4 py-3 font-bold text-[var(--color-text-main)]">${g.nom} ${g.prenom}</td>
+                    <td class="px-4 py-3">${g.class}</td>
+                    <td class="px-4 py-3 font-semibold text-cyan-800 dark:text-cyan-300">${g.subject}</td>
+                    <td class="px-4 py-3 text-center font-bold">${g.evaluation || '-'}</td>
+                    <td class="px-4 py-3 text-center font-bold">${g.quiz || '-'}</td>
+                    <td class="px-4 py-3 text-center font-bold">${g.exam || '-'}</td>
+                    <td class="px-4 py-3 text-center text-[var(--color-text-sub)]">${g.obs || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearGradesForSelected() {
+            const level = document.getElementById('grades-level-select').value;
+            const semester = document.getElementById('grades-semester-select').value;
+            
+            if (!db.grades || !db.grades[level] || !db.grades[level][semester] || db.grades[level][semester].length === 0) {
+                alert('لا توجد علامات مسجلة لهذا القسم والفصل لمسحها.');
+                return;
+            }
+            
+            if (confirm(`هل أنت متأكد من رغبتك في حذف جميع علامات الطلاب لـ (${levelNames[level]} - ${semester}) نهائياً؟`)) {
+                db.grades[level][semester] = [];
+                isUnsaved = true;
+                checkUnsaved();
+                renderGradesPreview();
+                alert('تم مسح علامات هذا الفصل بنجاح. تذكر النشر لحفظ التعديلات.');
             }
         }
 
